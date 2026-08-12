@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>绩效站 · Performance Hub</title>
+<style>
+  :root {
+    --ice-1: #ffffff;
+    --ice-2: #e5f1ff;
+    --ice-3: #5ac8fa;
+    --ice-4: #007aff;
+    --ice-5: #0056d6;
+    --deep-1: #0f1419;
+    --deep-2: #080d14;
+    --deep-3: #05080c;
+    --frost: rgba(255,255,255,0.07);
+    --line: rgba(0,122,255,0.18);
+    --glow: rgba(0,122,255,0.4);
+    --crystal: rgba(90,200,250,0.1);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC","Microsoft YaHei",-apple-system,sans-serif;
+    background: var(--deep-3);
+    color: var(--ice-1);
+    overflow-x: hidden;
+    line-height: 1.8;
+  }
+
+  /* 星空冰晶背景 */
+  .bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 1600px 800px at 20% -10%, rgba(0,122,255,0.12), transparent 60%),
+      radial-gradient(ellipse 1200px 600px at 80% 10%, rgba(90,200,250,0.08), transparent 55%),
+      linear-gradient(180deg, #0d1117, var(--deep-3));
+  }
+  .bg::after {
+    content:""; position:absolute; inset:0;
+    background-image:
+      radial-gradient(1.2px 1.2px at 30px 40px, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 90px 140px, rgba(255,255,255,0.3), transparent),
+      radial-gradient(1.5px 1.5px at 180px 70px, rgba(90,200,250,0.5), transparent),
+      radial-gradient(1px 1px at 250px 200px, rgba(255,255,255,0.3), transparent);
+    background-size: 320px 320px;
+    opacity: 0.6;
+    animation: twinkle 8s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.9; }
+  }
+
+  .wrapper { position: relative; z-index: 1; }
+
+  /* 首图 */
+  .hero {
+    position: relative; height: 100vh; min-height: 650px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center 35%;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  .hero .veil {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(5,8,12,0) 0%, rgba(5,8,12,0.08) 50%, rgba(5,8,12,0.25) 85%, rgba(5,8,12,0.4) 100%);
+  }
+  .hero .title {
+    position: relative; text-align: center; z-index: 2;
+    padding: 0 20px;
+  }
+  .hero h1 {
+    font-size: clamp(2.8rem, 8vw, 5.5rem);
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    background: linear-gradient(135deg, #ffffff 0%, #e5f1ff 30%, #5ac8fa 70%, #007aff 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    margin-bottom: 20px;
+  }
+  .hero .sub {
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    letter-spacing: 0.5em;
+    color: var(--ice-2);
+    opacity: 0.9;
+    text-transform: uppercase;
+  }
+  .hero .line {
+    margin: 30px auto 0;
+    width: 100px; height: 1px;
+    background: linear-gradient(90deg, transparent, #007aff, transparent);
+    box-shadow: 0 0 20px rgba(0,122,255,0.4);
+  }
+
+  /* 内容区 */
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 32px;
+  }
+  .section-head {
+    text-align: center;
+    margin-bottom: 70px;
+  }
+  .section-head h2 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: var(--ice-1);
+    text-shadow: 0 0 30px rgba(0,122,255,0.2);
+  }
+  .section-head .en {
+    color: #5ac8fa;
+    letter-spacing: 0.3em;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+  }
+  .section-head .bar {
+    width: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, #007aff, transparent);
+    margin: 28px auto 0;
+    box-shadow: 0 0 15px rgba(0,122,255,0.4);
+  }
+
+  /* 文件夹层级 */
+  .folder-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* 磨砂文件夹卡片 */
+  .folder-card {
+    background: linear-gradient(160deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03));
+    border: 1px solid rgba(180,220,255,0.18);
+    border-radius: 22px;
+    padding: 24px 28px;
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+  }
+  .folder-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  }
+  .folder-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 22px;
+    background: radial-gradient(ellipse 600px 300px at 30% 0%, rgba(0,122,255,0.05), transparent 70%);
+    pointer-events: none;
+  }
+  .folder-card:hover {
+    border-color: rgba(0,122,255,0.3);
+    box-shadow: 0 16px 50px rgba(0,10,30,0.6), 0 0 30px rgba(0,122,255,0.1);
+    transform: translateY(-2px);
+  }
+
+  .folder-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .folder-icon {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, #007aff, #5ac8fa);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,122,255,0.35);
+    flex-shrink: 0;
+  }
+  .folder-icon svg {
+    width: 24px; height: 24px;
+    fill: var(--ice-1);
+  }
+  .folder-info {
+    flex: 1;
+  }
+  .folder-name {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--ice-1);
+    letter-spacing: 0.08em;
+  }
+  .folder-desc {
+    font-size: 0.85rem;
+    color: var(--ice-2);
+    opacity: 0.6;
+    margin-top: 4px;
+    letter-spacing: 0.03em;
+  }
+  .folder-arrow {
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.5;
+  }
+  .folder-arrow svg {
+    width: 16px; height: 16px;
+    fill: #5ac8fa;
+  }
+  .folder-card.open > .folder-row .folder-arrow {
+    transform: rotate(90deg);
+    opacity: 0.8;
+  }
+
+  /* 子文件夹容器（默认隐藏） */
+  .folder-children {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s, margin 0.4s;
+    opacity: 0;
+    margin-top: 0;
+    margin-left: 24px;
+    padding-left: 20px;
+    border-left: 1px solid rgba(0,122,255,0.12);
+  }
+  .folder-card.open > .folder-children {
+    max-height: 600px;
+    opacity: 1;
+    margin-top: 16px;
+  }
+
+  /* 子文件夹卡片（复用样式，尺寸略小） */
+  .folder-children .folder-card {
+    padding: 18px 22px;
+    border-radius: 16px;
+    margin-bottom: 10px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+  }
+  .folder-children .folder-card:last-child {
+    margin-bottom: 0;
+  }
+  .folder-children .folder-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #34a1ff, #7dd3fc);
+    box-shadow: 0 3px 12px rgba(0,122,255,0.3);
+  }
+  .folder-children .folder-icon svg {
+    width: 18px; height: 18px;
+  }
+  .folder-children .folder-name {
+    font-size: 1.05rem;
+  }
+  .folder-children .folder-desc {
+    font-size: 0.8rem;
+  }
+
+  /* 叶子节点（无子文件夹，不可点击展开） */
+  .folder-card.leaf {
+    cursor: default;
+  }
+  .folder-card.leaf .folder-arrow {
+    display: none;
+  }
+  .folder-card.leaf:hover {
+    transform: none;
+  }
+  .folder-card.leaf .folder-icon {
+    background: linear-gradient(135deg, #0088ff, #66d4ff);
+  }
+
+  /* 尾图 */
+  .footer {
+    position: relative;
+    height: 75vh;
+    min-height: 500px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .footer img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center center;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  .footer .veil {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(5,8,12,0.3) 0%, rgba(5,8,12,0.15) 25%, transparent 50%, rgba(5,8,12,0.1) 75%, rgba(5,8,12,0.25) 100%);
+  }
+  .footer .credits {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 50px 24px 60px;
+  }
+  .footer .credits h2 {
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: var(--ice-1);
+    text-shadow: 0 0 40px rgba(0,122,255,0.4);
+  }
+  .footer .credits p {
+    margin-top: 14px;
+    font-size: 0.85rem;
+    color: var(--ice-2);
+    letter-spacing: 0.3em;
+    opacity: 0.8;
+  }
+
+  /* 文件项 */
+  .file-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+    border: 1px solid rgba(0,122,255,0.1);
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 8px;
+    transition: all 0.3s;
+  }
+  .file-item:last-child { margin-bottom: 0; }
+  .file-item:hover {
+    background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.025));
+    border-color: rgba(0,122,255,0.22);
+    transform: translateX(4px);
+  }
+  .file-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, #34c759, #30d158);
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(52,199,89,0.25);
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+  .file-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .file-name {
+    font-size: 0.95rem;
+    color: var(--ice-1);
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .file-meta {
+    font-size: 0.75rem;
+    color: var(--ice-3);
+    opacity: 0.6;
+    margin-top: 2px;
+  }
+  .file-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    border: 1px solid;
+    transition: all 0.25s;
+    cursor: pointer;
+    gap: 4px;
+  }
+  .btn-download {
+    background: rgba(0,122,255,0.12);
+    border-color: rgba(0,122,255,0.3);
+    color: #5ac8fa;
+  }
+  .btn-download:hover {
+    background: rgba(0,122,255,0.25);
+    border-color: rgba(0,122,255,0.5);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(0,122,255,0.15);
+  }
+  .btn-preview {
+    background: rgba(0,122,255,0.12);
+    border-color: rgba(0,122,255,0.3);
+    color: #5ac8fa;
+  }
+  .btn-preview:hover {
+    background: rgba(0,122,255,0.25);
+    border-color: rgba(0,122,255,0.5);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(0,122,255,0.15);
+  }
+  .btn-download {
+    background: rgba(52,199,89,0.12);
+    border-color: rgba(52,199,89,0.3);
+    color: #30d158;
+  }
+  .btn-download:hover {
+    background: rgba(52,199,89,0.22);
+    border-color: rgba(52,199,89,0.5);
+    color: #fff;
+  }
+
+  /* 预览模态框 */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(3,6,10,0.82);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    width: 100%; max-width: 1200px;
+    max-height: 88vh;
+    background: linear-gradient(180deg, #0b1420, #080d14);
+    border: 1px solid rgba(0,122,255,0.25);
+    border-radius: 18px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(0,122,255,0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .modal-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 22px;
+    border-bottom: 1px solid rgba(0,122,255,0.15);
+  }
+  .modal-head .title {
+    flex: 1;
+    font-size: 1.1rem;
+    color: var(--ice-1);
+    letter-spacing: 0.05em;
+  }
+  .modal-head .sheet-tabs {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .modal-head .tab {
+    padding: 5px 12px;
+    border-radius: 7px;
+    font-size: 0.78rem;
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .modal-head .tab.active {
+    background: rgba(0,122,255,0.25);
+    border-color: rgba(0,122,255,0.5);
+    color: #fff;
+  }
+  .modal-close {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: rgba(255,255,255,0.7);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .modal-body {
+    flex: 1;
+    overflow: auto;
+    padding: 6px;
+  }
+  .modal-body table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.82rem;
+  }
+  .modal-body th {
+    position: sticky; top: 0;
+    background: #101c2c;
+    color: #5ac8fa;
+    font-weight: 600;
+    text-align: left;
+    padding: 9px 12px;
+    border: 1px solid rgba(0,122,255,0.12);
+    white-space: nowrap;
+    z-index: 1;
+  }
+  .modal-body td {
+    padding: 7px 12px;
+    border: 1px solid rgba(0,122,255,0.08);
+    color: var(--ice-1);
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .modal-body tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .modal-body tr:hover td { background: rgba(0,122,255,0.06); }
+  .modal-status {
+    padding: 10px 22px;
+    border-top: 1px solid rgba(0,122,255,0.15);
+    font-size: 0.78rem;
+    color: var(--ice-3);
+    opacity: 0.7;
+  }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .section { padding: 70px 20px; }
+    .folder-item { padding: 22px 20px; }
+    .folder-desc { margin-left: 0; margin-top: 12px; }
+    .subfolder { margin-left: 20px; padding-left: 16px; }
+  }
+</style>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="bg"></div>
+<div class="wrapper">
+
+  <!-- 首图 -->
+  <header class="hero">
+    <img src="images/header.jpg" alt="绩效站">
+    <div class="veil"></div>
+    <div class="title">
+      <h1>绩效站</h1>
+      <div class="line"></div>
+      <div class="sub">Performance Hub</div>
+    </div>
+  </header>
+
+  <!-- 绩效数据 -->
+  <section class="section">
+    <div class="section-head">
+      <h2>绩效数据</h2>
+      <div class="en">Performance Data</div>
+      <div class="bar"></div>
+    </div>
+
+    <div class="folder-tree">
+      <!-- 绩效数据（根文件夹） -->
+      <div class="folder-card" onclick="toggleFolder(this)">
+        <div class="folder-row">
+          <div class="folder-icon">
+            <svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+          </div>
+          <div class="folder-info">
+            <div class="folder-name">绩效数据</div>
+            <div class="folder-desc">各部门、各中心的绩效完成情况与考核数据管理</div>
+          </div>
+          <div class="folder-arrow">
+            <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+          </div>
+        </div>
+
+        <div class="folder-children">
+          <!-- 2026 -->
+          <div class="folder-card" onclick="toggleFolder(this)">
+            <div class="folder-row">
+              <div class="folder-icon">
+                <svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+              </div>
+              <div class="folder-info">
+                <div class="folder-name">2026</div>
+                <div class="folder-desc">年度绩效数据</div>
+              </div>
+              <div class="folder-arrow">
+                <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+              </div>
+            </div>
+
+            <div class="folder-children" id="file-list">
+              <div class="file-item">
+                <div class="file-icon">XLSX</div>
+                <div class="file-info">
+                  <div class="file-name">云盘-原始</div>
+                  <div class="file-meta">约895 KB</div>
+                </div>
+                <div class="file-actions">
+<button class="btn btn-preview" onclick="previewExcel('26-07/云盘-原始.xlsx')">预览</button>
+<a class="btn btn-download" href="26-07/云盘-原始.xlsx" download>下载</a>
+                </div>
+              </div>
+              <div class="file-item">
+                <div class="file-icon">XLSX</div>
+                <div class="file-info">
+                  <div class="file-name">云盘-原始（副本）</div>
+                  <div class="file-meta">约895 KB</div>
+                </div>
+                <div class="file-actions">
+<button class="btn btn-preview" onclick="previewExcel('26-07/云盘-原始（副本）.xlsx')">预览</button>
+<a class="btn btn-download" href="26-07/云盘-原始（副本）.xlsx" download>下载</a>
+                </div>
+              </div>
+              <div class="file-item">
+                <div class="file-icon">XLSX</div>
+                <div class="file-info">
+                  <div class="file-name">系统-原始</div>
+                  <div class="file-meta">约895 KB</div>
+                </div>
+                <div class="file-actions">
+<button class="btn btn-preview" onclick="previewExcel('26-07/系统-原始.xlsx')">预览</button>
+<a class="btn btn-download" href="26-07/系统-原始.xlsx" download>下载</a>
+                </div>
+              </div>
+              <div class="file-item">
+                <div class="file-icon">XLSX</div>
+                <div class="file-info">
+                  <div class="file-name">系统-原始（副本）</div>
+                  <div class="file-meta">约895 KB</div>
+                </div>
+                <div class="file-actions">
+<button class="btn btn-preview" onclick="previewExcel('26-07/系统-原始（副本）.xlsx')">预览</button>
+<a class="btn btn-download" href="26-07/系统-原始（副本）.xlsx" download>下载</a>
+                </div>
+              </div>
+              <div class="file-item">
+                <div class="file-icon">XLSX</div>
+                <div class="file-info">
+                  <div class="file-name">整合-原始</div>
+                  <div class="file-meta">约895 KB</div>
+                </div>
+                <div class="file-actions">
+<button class="btn btn-preview" onclick="previewExcel('26-07/整合-原始.xlsx')">预览</button>
+<a class="btn btn-download" href="26-07/整合-原始.xlsx" download>下载</a>
+                </div>
+              </div>
+              <div class="file-item">
+                <div class="file-icon">XLSX</div>
+                <div class="file-info">
+                  <div class="file-name">整合-校准（副本）</div>
+                  <div class="file-meta">约895 KB</div>
+                </div>
+                <div class="file-actions">
+<button class="btn btn-preview" onclick="previewExcel('26-07/整合-校准（副本）.xlsx')">预览</button>
+<a class="btn btn-download" href="26-07/整合-校准（副本）.xlsx" download>下载</a>
+                </div>
+              </div>
+              <div class="file-item">
+                <div class="file-icon">XLSX</div>
+                <div class="file-info">
+                  <div class="file-name">OA名单</div>
+                  <div class="file-meta">约895 KB</div>
+                </div>
+                <div class="file-actions">
+<button class="btn btn-preview" onclick="previewExcel('26-07/OA名单.xlsx')">预览</button>
+<a class="btn btn-download" href="26-07/OA名单.xlsx" download>下载</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 尾图 -->
+  <footer class="footer">
+    <img src="images/footer.jpg" alt="绩效站">
+    <div class="veil"></div>
+    <div class="credits">
+      <h2>绩效站</h2>
+      <p>数据驱动 · 价值导向</p>
+    </div>
+  </footer>
+
+</div>
+
+<!-- 预览模态框 -->
+<div class="modal-overlay" id="previewModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="title" id="modalTitle">预览</div>
+      <div class="sheet-tabs" id="sheetTabs"></div>
+      <button class="modal-close" onclick="closePreview()">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-status" id="modalStatus"></div>
+  </div>
+</div>
+
+<script>
+function toggleFolder(el) {
+  el.classList.toggle('open');
+}
+
+// SheetJS 预览
+var _wbCache = {};
+
+function previewExcel(url) {
+  var overlay = document.getElementById('previewModal');
+  overlay.classList.add('show');
+  document.getElementById('modalTitle').textContent = url.split('/').pop();
+  document.getElementById('modalBody').innerHTML = '<div style="padding:40px;text-align:center;color:#5ac8fa">加载中…</div>';
+  document.getElementById('modalStatus').textContent = '正在加载表格…';
+  document.getElementById('sheetTabs').innerHTML = '';
+
+  fetch(url)
+    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.arrayBuffer(); })
+    .then(function(buf){
+      var wb = XLSX.read(buf, {type:'array'});
+      _wbCache[url] = wb;
+      renderSheets(url, wb, 0);
+    })
+    .catch(function(e){
+      document.getElementById('modalBody').innerHTML = '<div style="padding:40px;text-align:center;color:#ff6961">加载失败：'+e.message+'</div>';
+      document.getElementById('modalStatus').textContent = '预览失败';
+    });
+}
+
+function renderSheets(url, wb, idx) {
+  var names = wb.SheetNames;
+  var tabs = document.getElementById('sheetTabs');
+  tabs.innerHTML = '';
+  names.forEach(function(n, i){
+    var t = document.createElement('span');
+    t.className = 'tab' + (i===idx?' active':'');
+    t.textContent = n;
+    t.onclick = function(){ renderSheet(url, wb, i, names); };
+    tabs.appendChild(t);
+  });
+  renderSheet(url, wb, idx, names);
+}
+
+function renderSheet(url, wb, idx, names) {
+  var ws = wb.Sheets[names[idx]];
+  var aoa = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+  var body = document.getElementById('modalBody');
+  if (!aoa.length) { body.innerHTML = '<div style="padding:40px;text-align:center;color:#888">该工作表无数据</div>'; return; }
+
+  var html = '<table><thead><tr>';
+  var header = aoa[0] || [];
+  header.forEach(function(h){
+    html += '<th>' + String(h==null?'':h) + '</th>';
+  });
+  html += '</tr></thead><tbody>';
+  var maxRows = 500;
+  var shown = Math.min(aoa.length, maxRows+1);
+  for (var i=1;i<shown;i++){
+    var row = aoa[i] || [];
+    html += '<tr>';
+    for (var j=0;j<header.length;j++){
+      var v = row[j]==null ? '' : row[j];
+      html += '<td>' + String(v) + '</td>';
+    }
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  body.innerHTML = html;
+  document.getElementById('modalStatus').textContent =
+    '共 ' + names.length + ' 个工作表 · 当前「' + names[idx] + '」· 显示前 ' + shown + ' 行' +
+    (aoa.length > maxRows ? '（数据量大，仅预览前500行，可下载完整文件）' : '');
+}
+
+function closePreview(){ document.getElementById('previewModal').classList.remove('show'); }
+document.getElementById('previewModal').addEventListener('click', function(e){
+  if (e.target.id === 'previewModal') closePreview();
+});
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closePreview(); });
+</script>
+</body>
+</html>
