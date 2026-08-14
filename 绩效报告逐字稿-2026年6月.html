@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>绩效数据报告 · 2026年5-7月 逐字稿</title>
+<style>
+  :root {
+    --ice-1: #ffffff;
+    --ice-2: #e5f1ff;
+    --ice-3: #5ac8fa;
+    --ice-4: #007aff;
+    --ice-5: #0056d6;
+    --deep-1: #0f1419;
+    --deep-2: #080d14;
+    --deep-3: #05080c;
+    --frost: rgba(255,255,255,0.07);
+    --line: rgba(0,122,255,0.18);
+    --glow: rgba(0,122,255,0.4);
+    --up: #34c759;
+    --down: #ff453a;
+    --warn: #ffcc00;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+    background: linear-gradient(180deg, #0d1117, var(--deep-3));
+    color: var(--ice-1);
+    line-height: 1.9;
+    overflow-x: hidden;
+  }
+  .bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 1400px 700px at 15% -10%, rgba(0,122,255,0.12), transparent 60%),
+      radial-gradient(ellipse 1000px 500px at 85% 15%, rgba(90,200,250,0.07), transparent 55%);
+  }
+  .wrapper { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  .header { text-align: center; margin-bottom: 36px; }
+  .header .badge {
+    display: inline-block;
+    background: rgba(0,122,255,0.12);
+    border: 1px solid rgba(0,122,255,0.35);
+    color: var(--ice-3);
+    font-size: 13px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #5ac8fa, #007aff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.02em;
+  }
+  .header .sub { color: rgba(255,255,255,0.5); font-size: 14px; margin-top: 8px; }
+
+  .nav {
+    display: flex; justify-content: center; gap: 12px;
+    margin-bottom: 32px;
+    position: sticky; top: 14px; z-index: 10;
+    padding: 8px;
+    background: rgba(8,13,20,0.75);
+    border: 1px solid rgba(0,122,255,0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(16px);
+    width: fit-content; margin-left: auto; margin-right: auto;
+  }
+  .nav a {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 7px 20px;
+    border-radius: 10px;
+    transition: all .2s;
+    letter-spacing: 0.05em;
+  }
+  .nav a:hover { color: #fff; background: rgba(0,122,255,0.15); }
+
+  .month { margin-bottom: 56px; }
+  .month-hero {
+    background: linear-gradient(160deg, rgba(255,255,255,0.09), rgba(255,255,255,0.02));
+    border: 1px solid rgba(0,122,255,0.3);
+    border-radius: 22px;
+    padding: 26px 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(0,122,255,0.06);
+  }
+  .month-hero .m-title { font-size: 25px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .month-hero .m-title .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: linear-gradient(135deg, #007aff, #5ac8fa);
+    box-shadow: 0 0 12px var(--glow);
+  }
+  .month-hero .m-desc { color: rgba(255,255,255,0.6); font-size: 14px; margin-top: 10px; }
+  .month-hero .m-note {
+    margin-top: 12px; font-size: 13px; color: var(--warn);
+    background: rgba(255,204,0,0.08); border: 1px solid rgba(255,204,0,0.25);
+    border-radius: 10px; padding: 8px 14px;
+  }
+
+  .card {
+    background: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 26px 30px;
+    margin-bottom: 18px;
+    backdrop-filter: blur(14px);
+  }
+  .card-title {
+    font-size: 17px; font-weight: 600; color: var(--ice-3);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .card-title::before {
+    content: ""; width: 4px; height: 18px; border-radius: 2px;
+    background: linear-gradient(180deg, #5ac8fa, #007aff);
+  }
+  .card p, .card li { font-size: 14px; color: rgba(255,255,255,0.84); }
+  .card p { margin-bottom: 8px; }
+  .card ul { padding-left: 22px; margin-bottom: 6px; }
+  .card li { margin-bottom: 6px; }
+  .card .lvl2 { margin-top: 4px; }
+  .card .lvl2 li { color: rgba(255,255,255,0.66); font-size: 13.5px; }
+
+  .hl { color: var(--ice-3); font-weight: 600; }
+  .warn-text { color: var(--warn); }
+  .up-text { color: var(--up); }
+  .down-text { color: var(--down); }
+  .dim { color: rgba(255,255,255,0.45); font-size: 13px; }
+
+  .tag {
+    display: inline-block;
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 8px;
+    margin-right: 6px;
+    border: 1px solid;
+    vertical-align: 1px;
+  }
+  .tag.up { color: var(--up); border-color: rgba(52,199,89,0.4); background: rgba(52,199,89,0.08); }
+  .tag.down { color: var(--down); border-color: rgba(255,69,58,0.4); background: rgba(255,69,58,0.08); }
+  .tag.warn { color: var(--warn); border-color: rgba(255,204,0,0.4); background: rgba(255,204,0,0.08); }
+  .tag.blue { color: var(--ice-3); border-color: rgba(90,200,250,0.4); background: rgba(90,200,250,0.08); }
+
+  .footer { text-align: center; color: rgba(255,255,255,0.3); font-size: 12.5px; margin-top: 40px; }
+
+  @media (max-width: 700px) {
+    .header h1 { font-size: 24px; }
+    .card { padding: 20px; }
+    .month-hero { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="wrapper">
+
+  <div class="header">
+    <span class="badge">绩效站 · 月度报告逐字稿</span>
+    <h1>2026年6月 绩效报告 逐字稿</h1>
+    <div class="sub">2026年6月 ｜ 依据《绩效数据报告》《目标拆解情况-2026》原文整理，保留原始表述</div>
+  </div>
+
+  <div class="nav"><a href="#m6">2026年6月</a></div>
+
+  <!-- ===================== 2026年6月 ===================== -->
+  <div class="month" id="m6">
+    <div class="month-hero">
+      <div class="m-title"><span class="dot"></span>2026年6月</div>
+      <div class="m-desc">数据来源：《绩效数据报告》6月章节 + 《目标拆解情况-2026》6月目标</div>
+      <div class="m-note">⚠ 注：原文档"绩效整体完成情况总结"章节中标题写为"5月"，但内容为6月考核结果（含谢辉6月数据等），按原文保留。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">奖金池情况 · 公司情况总结</div>
+      <p>26年6月，公司总奖金池额度为309.3万元，实际发放275.1万元，剩余34.2万元未发放。未发放的主要原因在于主播岗位奖金池，三个营销部门总计剩余约39万元。</p>
+      <p>去除主播岗位后，总奖金池额度为209.8万元，实际发放213.6万元，发超3.8万元。</p>
+      <ul>
+        <li>本月发超主要为季度奖金结算周期，如全线下渠道部（约3.5w左右）、凡岛研究院（约为3.5w左右）、凡岛大学、新品牌事业部，但整体均未发超季度预留的奖金池</li>
+        <li>剩余奖金较多的部门为电商发展部（人员异动导致的奖金池剩余）、海外事业部（独立计算，整体完成率不佳，带来的奖金池剩余）</li>
+        <li>含主播的情况下，绩效基数池降低36w左右；不含主播的情况下，绩效基数池降低16w左右，在不含主播的情况下
+          <ul class="lvl2">
+            <li>下降明显的几个部门为线下-KONO（下降约为5w）、广策&amp;人资（下降约为2w）、电商&amp;线下-WIS（下降约为1.7w）--以上大部分为主动迭代</li>
+            <li>本月相较于上月，上升的部门，绩效基数池仅有小幅度的上升。如海外与品营（上升约为0.6w），海外主要为人员转正，品营主要为人员正常变动带来的绩效基数池的差异</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">绩效整体完成情况总结</div>
+      <p><b>总结</b></p>
+      <ul>
+        <li>5月整体完成情况略微下降，干部平均得分上升，提升最为明显的三个部门为线下渠道部（赫系）、品牌营销部、品牌创意部，下降明显三个部门/业务模块为广告策划部、线下渠道部（KONO）、人资行政部
+          <ul class="lvl2">
+            <li>提升：线下渠道部（赫系）主要由于开拓系统有所上升，提升整体完成情况；品牌营销部眼膜利润完成提升&amp;一创素材与明星素材完成结果提升，品牌创意部二创板块粉材集体跑出爆款。</li>
+            <li>下降：广告策划部整个渠道利润持续不达标，完成情况有所下降；线下渠道部（KONO）除西南区外，整体出货&amp;利润完成情况下降；人资行政部猎聘中心持续完成情况下降。</li>
+          </ul>
+        </li>
+        <li>奖金池总额度随各部门优化编制&amp;在职人员配置进一步下降，本月奖金池大部分未完全发放除主播奖金池外，其他奖金池发超，主要因季度奖金发放，但从整个季度看未发超</li>
+      </ul>
+      <p><b>详细内容</b></p>
+      <ul>
+        <li>5月公司平均绩效得分有所提升
+          <ul class="lvl2">
+            <li><span class="up-text">平均得分提升前三的部门为线下渠道部（赫系）-0.30、品牌营销部-0.28、品牌创意部-0.27</span>
+              <ul>
+                <li>线下渠道部，系统开拓全面铺开，整体出货亦有所提升（谢辉5月三项开拓全归零，6月富万家、福万家两个新系统+58家门店（鑫之浩）超额；巫超龙3个系统+109家门店超额；刘凌锋季返8个系统+3个代理商+98家门店全部超标）；品牌营销部销中心C利润好转，6月素利润指标完成，品牌营销中心KOC+明星整体完成较好，4月仅做纯KOC，5月转型KOC+明星，6月明星业务提升，视频中心一创视频完成情况提升）；品牌创意部（赫系A整体完成情况提升+二创板块粉材集体跑出爆款）</li>
+              </ul>
+            </li>
+            <li><span class="down-text">平均得分下降前三的部门为广告策划部-0.12、线下渠道部（KONO）-0.05、人资行政部-0.05</span>
+              <ul>
+                <li>广告策划部整个渠道利润持续不达标（营销D-营销A，混剪素材完成下降），完成情况有所下降；线下渠道部（KONO）除西南区外，整体出货&amp;利润完成情况下降；人资行政部猎聘中心持续完成情况下降（终面&amp;offer等最终转化完成情况下降）。</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>本月干部差值-专员差值
+          <ul class="lvl2">
+            <li><span class="up-text">干部大于专员最大的三个部门为海外事业部（0.27）、人资行政部（0.21）、线下渠道部（KONO）（0.20）</span>
+              <ul>
+                <li>海外事业部主要由于越南新品测试结果较好，主管完成情况提升，部门整体老品、美区完成情况仍有待提升；人资行政部主要由于主管存在个人业务或完成情况由多渠道构成（如综合招聘中心）、线下渠道部（KONO）仅有张莹（西南区）负责人完成情况拉动</li>
+              </ul>
+            </li>
+            <li><span class="down-text">干部小于专员最大的三个部门为线下渠道部（0.60）、线下渠道部-赫系（0.31）、品牌营销部（0.29）</span>
+              <ul>
+                <li>线下渠道部主要由于白茜承接线下总体营业额&amp;利润&amp;部分个人指标，线下渠道部岛民多为业务助理等岗位，岛民平均完成率较高；品营低于岛民主要是由于部分干部完成情况较低（A与J中心）拉低平均值而整个部门整体业务完成相对较佳；线下赫系，主管完成率低于岛民，主要是由于利润等相关指标完成情况不佳，且暂未制定给岛民</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">战略落地&amp;明确方向抽检结果</div>
+      <p><b>指标匹配度</b></p>
+      <ul>
+        <li>本月抽检24个岗位，覆盖全公司的所有部门，目前指标拆解与关键职责无法对应的岗位有以下三个岗位，<span class="warn-text">待确认是否需要优化岗位关键职责中..</span></li>
+      </ul>
+      <p><b>目标拆解情况</b></p>
+      <ul>
+        <li><b>部门-中心</b>
+          <ul class="lvl2">
+            <li>结合数据&amp;情况了解后，营销额未完全下发的主要为海外；利润率/额未完全下发的为品创、电商；利润率/额下发率异常（224%）的为海外
+              <ul>
+                <li>海外
+                  <ul>
+                    <li>营业额指标：结合实际情况考虑，营业额指标未完全下发。</li>
+                    <li>利润率指标：综合实际情况，tiktok渠道现阶段核心重点为销售额突破的目标，故未制定利润率指标，由总监对费比等利润关键要素进行把控。仅给shopee、亚马逊渠道制定利润目标。</li>
+                  </ul>
+                </li>
+                <li>品创：主管目标设定时间较早，部门目标确定后未进一步提高主管目标，此考虑是基于达成目标的积极性问题。</li>
+                <li>电商：总监为各主管设定的是底线利润额，即必须完成的部分，实际达成情况应会更优。之前设定利润率时，主管们会因为利润率不敢进行渠道策略变化，修改后希望渠道在保证利润的基础上争取更大的营业额。</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><b>中心-岛民</b>
+          <ul class="lvl2">
+            <li>结合数据&amp;情况了解后，无明显异常</li>
+          </ul>
+        </li>
+      </ul>
+      <p><b>奖金激励抽检结果</b></p>
+      <ul>
+        <li>在各部门中抽取奖金池＞3的岗位进行抽样分析，总计抽检22个岗位，覆盖12个部门，抽检的岗位中，变异系数的排名与岗位性质不匹配的部门/岗位为</li>
+        <li>广告策划部-创意中心-二创相关岗位，在抽检的22个岗位中排名16，低于研发，相较于业务性质，该竞争性排名较低，其他岗位暂无明显排名情况异常。</li>
+        <li>目前广告策划部-创意中心方案还在梳理中，预计下周一与中心一起讨论后，在7月结合业务现状，更新新一版的方案</li>
+        <li class="warn-text">【仅有一位纯二创岛民，部门内业务方向不一致，后续预计为月度独立计算，季度奖金排名发放】</li>
+      </ul>
+      <p><b>营销二创阵分析情况（6月）</b></p>
+      <ul>
+        <li>对6月营销二创阵的产出、奖金及各类排名情况进行分析后，有两个方面需进一步关注：
+          <ul class="lvl2">
+            <li><span class="warn-text">1. 营销中心J：</span>林建宇产出最低、得分最低，但奖金最高；陈凯涛得分排名第一，却未获得奖金。该中心的奖金分配逻辑为组员先按小组分配，再依据组内排名分配，这导致部分成员存在严重的"平均主义"问题。目前已对该分配方式进行修改，<span class="hl">自7月起，组员将按照个人得分进行整体排名</span>。</li>
+            <li><span class="warn-text">2. 赫系营销A中心人员流失严重。</span>截至7月分析时，6月参与奖金分配的人员中，已有3人新增离职，原7名人员中总计离职5人。观察7月入职数据发现，已补充6人（包含一名营销策划实习生）。</li>
+          </ul>
+        </li>
+        <li>过往营销策划岗位人员流失与营销二创阵中营销策划岗位整体的薪酬福利、长期发展等共性问题相关。有待观察7月数据更新后，人员流失情况是否能够得到缓解。</li>
+      </ul>
+      <p><b>主播阵分析情况（4-6月问题总结）</b></p>
+      <ul>
+        <li>关于顶部人员更迭
+          <ul class="lvl2">
+            <li>三个营销部门中，品创的顶部较为稳定，品营顶部有所升降，但是都基于内部的竞争带来的人员变化，广告因迭代高级主播，导致顶部的人员偏为动荡</li>
+          </ul>
+        </li>
+        <li>针对末位迭代&amp;人员培养情况：
+          <ul class="lvl2">
+            <li>目前广告部门和品创部门处于末位的人员均未直接进行迭代。经沟通了解到，广告部门是由于过往存在人员缺编情况，且6月迭代高级主播后进一步造成人员缺编，因此不敢进行迭代，且人员未能及时得到补充；</li>
+            <li>品创部门亦是因为人员离职导致出现人员缺编，致使因人员未及时补充而不敢进行迭代。</li>
+            <li>品营部门虽正常开展迭代工作，但从4 - 6月入职新人的情况来看，新人培养（中部人员的更迭）整体排名处于中后位置。
+              <ul>
+                <li>此处主要影响因素为，品营整体直播间数量较多，新人入职后均分配至小体量直播间，且新品直播间测试较为频繁，致使新人整体排名较为靠后。预计8月将有新的主播教练入职，以加强新人培养工作，届时将持续观察效果。</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">6月目标拆解情况（《目标拆解情况-2026》）</div>
+      <ul>
+        <li><b>部门-中心</b>
+          <ul class="lvl2">
+            <li>结合数据&amp;情况了解后，营销额未完全下发的主要为海外；利润率/额未完全下发的为品创、电商；利润率/额下发率异常（224%）的为海外
+              <ul>
+                <li>海外
+                  <ul>
+                    <li>营业额指标：结合实际情况考虑，营业额指标未完全下发。</li>
+                    <li>利润率指标：综合实际情况，tiktok渠道现阶段核心重点为销售额突破的目标，故未制定利润率指标，由总监对费比等利润关键要素进行把控。仅给shopee、亚马逊渠道制定利润目标。</li>
+                  </ul>
+                </li>
+                <li>品创：主管目标设定时间较早，部门目标确定后未进一步提高主管目标，此考虑是基于达成目标的积极性问题。</li>
+                <li>电商：总监为各主管设定的是底线利润额，即必须完成的部分，实际达成情况应会更优。之前设定利润率时，主管们会因为利润率不敢进行渠道策略变化，修改后希望渠道在保证利润的基础上争取更大的营业额。</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><b>中心-岛民</b>
+          <ul class="lvl2">
+            <li>结合数据&amp;情况了解后，无明显异常</li>
+          </ul>
+        </li>
+      </ul>
+      <p><b>营业额目标拆解情况 · 从部门-中心</b></p>
+      <ul>
+        <li>广策&amp;海外营业额目标均未完全拆解，占比29%（2/7）</li>
+      </ul>
+      <p><b>营业额目标拆解情况 · 从中心-岛民</b></p>
+      <ul>
+        <li>本月营业额抽检了11位主管，其中有2位（占比18.18%）主管的拆解率（岛民和/主管）≤100%，详细原因如下
+          <ul class="lvl2">
+            <li><span class="up-text">属于正常情况：</span>
+              <ul>
+                <li>线下渠道部-赫系-李燕彪：主管亦独立开展业务，有个人营业额指标。若为新项目向同事设定利润率，可能会导致同事过度关注利润，从而忽视项目所处的冲刺阶段。</li>
+                <li>品牌营销部-营销中心D-李逸青：主要制定的新素材gmv</li>
+              </ul>
+            </li>
+            <li><span class="up-text">复查：</span>
+              <ul>
+                <li><span class="hl">上月未完全拆解的线下渠道部（KONO）-KONO销售B中心-李慧琳 已完全拆解</span></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p><b>利润目标拆解情况 · 从部门-中心</b></p>
+      <ul>
+        <li>从部门-中心，电商、品创、未完全拆解，29%（2/7）的部门未完全拆解</li>
+        <li>品创：主管目标定的比较早，部门的目标确定了之后没有进一步调高主管目标，考虑达成积极性的问题</li>
+      </ul>
+      <p><b>利润目标拆解情况 · 从中心-岛民</b></p>
+      <ul>
+        <li>在抽检的8个主管中，有5位主管（62.5%）的主管完成了完全拆解，有2位主管未直接制定利润目标（ROI、费比等），1位主管目标未完全拆解，整体无明显异常
+          <ul class="lvl2">
+            <li>线下渠道部（KONO）-KONO销售B中心-李慧琳：拆解率达98%，仅有5000元未完成拆解，此情况属于正常范畴。</li>
+            <li>品牌营销部-营销中心D-李逸青：该部门下设岗位纯为营销策划岗位（共3个）。对于基础二创岗位，由主管负责把控整体利润率，岛民主要任务为达成GMV指标，此情况属正常情况。</li>
+            <li>品牌创意部-赫系营销A、B中心-蔡莎：设定投产比及ROI目标，以此管控利润达成情况。</li>
+          </ul>
+        </li>
+      </ul>
+      <p><b>其他类型-降本、财报收入</b></p>
+      <ul>
+        <li><span class="hl">凡岛研究院月度虽未完全拆解 但季度已核实完全拆解，</span>凡岛研究院季度部门收入目标300万，主管季度收入目标之和303万</li>
+        <li>产品供应部拆解率过高主要是由于产品供应部协作业务多，有重合目标，以及提升主管主观能动性，对主管高要求</li>
+      </ul>
+      <p><b>从中心-岛民</b></p>
+      <ul>
+        <li>从中心到岛民，无明显异常</li>
+        <li>产品供应部 - 采购中心 - 李炜瑶：主管降本目标发生变动，未将新增降本金额分配给相关人员，自7月起将进行调整以保持一致。</li>
+        <li>AI效率流程部门 - AI效率流程F中心 - 林翰：主管承担部分收入指标</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">绩效站 · Performance Hub ｜ 数据来源：飞书文档《绩效数据报告》《目标拆解情况-2026》 ｜ 整理于 2026-08-14</div>
+</div>
+</body>
+</html>

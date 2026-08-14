@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>绩效数据报告 · 2026年5-7月 逐字稿</title>
+<style>
+  :root {
+    --ice-1: #ffffff;
+    --ice-2: #e5f1ff;
+    --ice-3: #5ac8fa;
+    --ice-4: #007aff;
+    --ice-5: #0056d6;
+    --deep-1: #0f1419;
+    --deep-2: #080d14;
+    --deep-3: #05080c;
+    --frost: rgba(255,255,255,0.07);
+    --line: rgba(0,122,255,0.18);
+    --glow: rgba(0,122,255,0.4);
+    --up: #34c759;
+    --down: #ff453a;
+    --warn: #ffcc00;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+    background: linear-gradient(180deg, #0d1117, var(--deep-3));
+    color: var(--ice-1);
+    line-height: 1.9;
+    overflow-x: hidden;
+  }
+  .bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 1400px 700px at 15% -10%, rgba(0,122,255,0.12), transparent 60%),
+      radial-gradient(ellipse 1000px 500px at 85% 15%, rgba(90,200,250,0.07), transparent 55%);
+  }
+  .wrapper { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  .header { text-align: center; margin-bottom: 36px; }
+  .header .badge {
+    display: inline-block;
+    background: rgba(0,122,255,0.12);
+    border: 1px solid rgba(0,122,255,0.35);
+    color: var(--ice-3);
+    font-size: 13px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #5ac8fa, #007aff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.02em;
+  }
+  .header .sub { color: rgba(255,255,255,0.5); font-size: 14px; margin-top: 8px; }
+
+  .nav {
+    display: flex; justify-content: center; gap: 12px;
+    margin-bottom: 32px;
+    position: sticky; top: 14px; z-index: 10;
+    padding: 8px;
+    background: rgba(8,13,20,0.75);
+    border: 1px solid rgba(0,122,255,0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(16px);
+    width: fit-content; margin-left: auto; margin-right: auto;
+  }
+  .nav a {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 7px 20px;
+    border-radius: 10px;
+    transition: all .2s;
+    letter-spacing: 0.05em;
+  }
+  .nav a:hover { color: #fff; background: rgba(0,122,255,0.15); }
+
+  .month { margin-bottom: 56px; }
+  .month-hero {
+    background: linear-gradient(160deg, rgba(255,255,255,0.09), rgba(255,255,255,0.02));
+    border: 1px solid rgba(0,122,255,0.3);
+    border-radius: 22px;
+    padding: 26px 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(0,122,255,0.06);
+  }
+  .month-hero .m-title { font-size: 25px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+  .month-hero .m-title .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: linear-gradient(135deg, #007aff, #5ac8fa);
+    box-shadow: 0 0 12px var(--glow);
+  }
+  .month-hero .m-desc { color: rgba(255,255,255,0.6); font-size: 14px; margin-top: 10px; }
+  .month-hero .m-note {
+    margin-top: 12px; font-size: 13px; color: var(--warn);
+    background: rgba(255,204,0,0.08); border: 1px solid rgba(255,204,0,0.25);
+    border-radius: 10px; padding: 8px 14px;
+  }
+
+  .card {
+    background: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 26px 30px;
+    margin-bottom: 18px;
+    backdrop-filter: blur(14px);
+  }
+  .card-title {
+    font-size: 17px; font-weight: 600; color: var(--ice-3);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .card-title::before {
+    content: ""; width: 4px; height: 18px; border-radius: 2px;
+    background: linear-gradient(180deg, #5ac8fa, #007aff);
+  }
+  .card p, .card li { font-size: 14px; color: rgba(255,255,255,0.84); }
+  .card p { margin-bottom: 8px; }
+  .card ul { padding-left: 22px; margin-bottom: 6px; }
+  .card li { margin-bottom: 6px; }
+  .card .lvl2 { margin-top: 4px; }
+  .card .lvl2 li { color: rgba(255,255,255,0.66); font-size: 13.5px; }
+
+  .hl { color: var(--ice-3); font-weight: 600; }
+  .warn-text { color: var(--warn); }
+  .up-text { color: var(--up); }
+  .down-text { color: var(--down); }
+  .dim { color: rgba(255,255,255,0.45); font-size: 13px; }
+
+  .tag {
+    display: inline-block;
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 8px;
+    margin-right: 6px;
+    border: 1px solid;
+    vertical-align: 1px;
+  }
+  .tag.up { color: var(--up); border-color: rgba(52,199,89,0.4); background: rgba(52,199,89,0.08); }
+  .tag.down { color: var(--down); border-color: rgba(255,69,58,0.4); background: rgba(255,69,58,0.08); }
+  .tag.warn { color: var(--warn); border-color: rgba(255,204,0,0.4); background: rgba(255,204,0,0.08); }
+  .tag.blue { color: var(--ice-3); border-color: rgba(90,200,250,0.4); background: rgba(90,200,250,0.08); }
+
+  .footer { text-align: center; color: rgba(255,255,255,0.3); font-size: 12.5px; margin-top: 40px; }
+
+  @media (max-width: 700px) {
+    .header h1 { font-size: 24px; }
+    .card { padding: 20px; }
+    .month-hero { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="wrapper">
+
+  <div class="header">
+    <span class="badge">绩效站 · 月度报告逐字稿</span>
+    <h1>2026年5月 绩效报告 逐字稿</h1>
+    <div class="sub">2026年5月 ｜ 依据《绩效数据报告》《目标拆解情况-2026》原文整理，保留原始表述</div>
+  </div>
+
+  <div class="nav"><a href="#m5">2026年5月</a></div>
+
+  <!-- ===================== 2026年5月 ===================== -->
+  <div class="month" id="m5">
+    <div class="month-hero">
+      <div class="m-title"><span class="dot"></span>2026年5月</div>
+      <div class="m-desc">数据来源：《绩效数据报告》5月章节 + 《目标拆解情况-2026》5月目标</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">奖金池情况 · 公司情况总结</div>
+      <p>26年5月，公司总奖金池额度为345.8万元，实际发放279.9万元，剩余65.8万元未发放。未发放的主要原因在于主播岗位奖金池，三个营销部门总计剩余约48万元。</p>
+      <p>去除主播岗位后，总奖金池额度为225.4万元，实际发放207.7万元，剩余17.7万元。</p>
+      <ul>
+        <li>剩余奖金较多的部门多为存在季度奖金池，如广告策划部、凡岛研究院、人资行政部等，亦存在部门内较多岗位独立计算，且4月完成不佳的情况，如品牌创意部</li>
+        <li>发超的奖金池的部门-凡岛大学，主要为岗位独立计算</li>
+        <li>含主播的情况下，绩效基数池降低13w左右；不含主播及从化的情况下，绩效基数池降低8w左右
+          <ul class="lvl2">
+            <li>下降明显的几个部门为广告、线下-WIS：约为3w，凡岛研究院、线下-KONO：约为2w，主要为在4月进行了一轮人员编制&amp;在职人员优化（4月处理，会在5月奖金池影响）</li>
+            <li>上升明显的几个部门为AI增加了约为3w（主要为试用期转正），品创增加了约为1.6w（主要为新增营销策划8人入职，2人已离职）</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">绩效整体完成情况总结</div>
+      <p><b>总结</b></p>
+      <ul>
+        <li>5月整体完成情况有所提升，干部平均得分持续下滑，提升最为明显的三个部门为品牌管理部、总经办、凡岛大学，下降明显三个部门/业务模块为线下渠道&amp;海外相关业务
+          <ul class="lvl2">
+            <li>提升：品牌管理部主要是由于KONO品牌营业额&amp;利润整体完成较好（营业额提升在于抖店经典、达播、电商渠道完成结果较好、线下利润因有新增坏账，导致线下KONO渠道整体利润不佳，但因营业额上涨&amp;线上渠道利润完成较好，整体完成亦较好）、凡岛大学与总经办均为关键工作指标当月完成结果提升（如凡岛大学专业技能、创业模块的开拓运营等指标）</li>
+            <li>下降：线下KONO与WIS，在利润额完成率+OTO新系统开拓上的完成结果都比较欠佳，商务经理新增利润率指标且权重占比20%左右，导致整体得分下滑【预计下月调整权重】；海外美区整体完成较差，得分偏低</li>
+          </ul>
+        </li>
+        <li>干部得分持续下滑非异常情况，主要由于线下渠道部-白茜，个人承接总营业额&amp;利润&amp;个人指标，岛民多为业务助理等执行岗，指标稳定、无高风险权重&amp;营销部门存在利润率红线得分清0</li>
+        <li>奖金池总额度随各部门优化编制&amp;在职人员配置进一步下降，线本月奖金池大部分未完全发放除主播奖金池外，主要因季度奖金预留&amp;岗位独立计算</li>
+      </ul>
+      <p><b>详细内容</b></p>
+      <ul>
+        <li>5月公司平均绩效得分有所提升
+          <ul class="lvl2">
+            <li><span class="up-text">平均得分提升前三的部门为品牌管理部（0.22）、凡岛大学（0.19）、总经办（0.18）</span>
+              <ul>
+                <li>品牌管理部主要是由于KONO品牌营业额&amp;利润整体完成较好（营业额提升在于抖店经典、达播、电商渠道完成结果较好、线下利润因有新增坏账，导致线下KONO渠道整体利润不佳，但因营业额上涨&amp;线上渠道利润完成较好，整体完成亦较好）、凡岛大学与总经办均为关键工作指标当月完成结果提升（如凡岛大学专业技能、创业模块的开拓运营等指标）</li>
+              </ul>
+            </li>
+            <li><span class="down-text">平均得分下降前三的部门为线下渠道部-WIS（0.24）、线下渠道部-WIS（0.19）、海外事业部（0.18）</span>
+              <ul>
+                <li>线下KONO与WIS，在利润额完成率+OTO新系统开拓上的完成结果都比较欠佳，商务经理新增利润率指标且权重占比20%左右，导致整体得分下滑；海外美区整体完成较差，得分偏低</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>本月干部差值-专员差值
+          <ul class="lvl2">
+            <li><span class="up-text">干部大于专员最大的三个部门为线下渠道部-赫系（0.14）、人资行政部（0.11）、凡岛大学（0.10）</span>
+              <ul>
+                <li>线下渠道部-赫系/凡岛大学/人资部分中心，干部得分高于岛民主要由于负责人也在做业务产出</li>
+              </ul>
+            </li>
+            <li><span class="down-text">干部小于专员最大的三个部门为线下渠道部（0.58）、品牌营销部（0.22）、线下渠道部-WIS（0.21）</span>
+              <ul>
+                <li>线下渠道部主要由于白茜承接线下总体营业额&amp;利润&amp;部分个人指标，线下渠道部岛民多为业务助理等岗位，岛民平均完成率较高；品营低于岛民部门主要由于主管在利润率&amp;营业额的得分设计上，都存在完成率红线，而对于岛民，更多的是按照完成率/ROI打折计算；线下wis，主管完成率低于岛民，主要是由于利润等相关指标占比权重较高&amp;岛民中存在培训师等相关岗位，非特殊情况，而是由于指标设计导致的。</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>本月奖金发放情况
+          <ul class="lvl2">
+            <li>26年5月，公司总奖金池额度为345.8万元，实际发放279.9万元，剩余65.8万元未发放。未发放的主要原因在于主播岗位奖金池，三个营销部门总计剩余约48万元。</li>
+            <li>去除主播岗位后，总奖金池额度为225.4万元，实际发放207.7万元，剩余17.7万元。
+              <ul>
+                <li>剩余奖金较多的部门多为存在季度奖金池，如广告策划部、凡岛研究院、人资行政部等，亦存在部门内较多岗位独立计算，且4月完成不佳的情况，如品牌创意部</li>
+                <li>发超的奖金池的部门-凡岛大学，主要为岗位独立计算</li>
+              </ul>
+            </li>
+            <li>含主播的情况下，绩效基数池降低13w左右；不含主播及从化的情况下，绩效基数池降低8w左右
+              <ul>
+                <li>下降明显的几个部门为广告、线下-WIS：约为3w，凡岛研究院、线下-KONO：约为2w，主要为在4月进行了一轮人员编制&amp;在职人员优化（4月处理，会在5月奖金池影响）</li>
+                <li>上升明显的几个部门为AI增加了约为3w（主要为试用期转正），品创增加了约为1.6w（主要为新增营销策划8人入职，2人已离职）</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">战略落地&amp;明确方向抽检结果</div>
+      <p><b>指标匹配度</b></p>
+      <ul>
+        <li>本月在各部门均抽检一岗位进行指标与关键职责的匹配情况，不与上月抽检岗位重合，总计抽检20个岗位
+          <ul class="lvl2">
+            <li><span class="warn-text">需要新增关键职责岗位为凡岛大学-课程助教</span></li>
+            <li><span class="warn-text">需要优化的岗位为人资行政部-直播招聘中心-招聘BP</span></li>
+          </ul>
+        </li>
+      </ul>
+      <p><b>目标拆解情况</b></p>
+      <ul>
+        <li><b>部门-中心</b>
+          <ul class="lvl2">
+            <li>结合数据&amp;情况了解后营销额未完全拆解的主要为品营、品创、海外、利润率/额未完全下发的是电商、海外
+              <ul>
+                <li>电商：部门目标偏高，给主管定的目标更贴合业务实际</li>
+                <li>品创：总监综合目标制定难度&amp;岛民活力在5月未完全下发</li>
+                <li>海外：基于现阶段中心负责人的的关键工作，营业额指标未完全下发，利润率指标未直接下发（下发费比等指标）</li>
+                <li>品营：总监综合目标制定难度在5月未完全下发</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><b>中心-岛民</b>
+          <ul class="lvl2">
+            <li>结合数据&amp;情况了解后，需关注的营业额/利润率拆解情况主要集中于
+              <ul>
+                <li>线下渠道部（KONO）-KONO销售B中心-李慧琳<br>李慧琳：Q1季度因团队压力过高，岛民流失，主动调整绩效压力，目标制定根据过往的趋势数据与资源综合制定的目标，且明确为短期计划，<span class="warn-text">可抽检6月目标观察实施情况</span></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p><b>奖金激励抽检结果</b></p>
+      <ul>
+        <li>本月总计抽检25个不同部门-中心的岗位（涵盖上月异常的赫系营销C中心），本月奖金竞争性排名无明显异常，但有以下中心值得关注</li>
+        <li>品牌创意部-赫系营销D中心-营销策划岗位，目前视频号团队拆分为多个小组，每个小组的营销策划人数较少，多为2人左右，部门考虑到不同单品处在不同阶段，难以衡量每个单品的实际贡献以及希望单品之间素材共享互助，将营销策划从强排大部分调整为独立计算</li>
+        <li class="warn-text">可结合后续该中心营销策划的活力状态去评估，是否调整奖金分配方式</li>
+      </ul>
+      <p><b>主播阵运行情况</b></p>
+      <div class="card" style="padding: 14px 18px;">
+        <table style="width:100%;border-collapse:collapse;font-size:13.5px;">
+          <tr>
+            <th style="padding:8px 10px;text-align:left;border:1px solid rgba(0,122,255,0.2);color:var(--ice-3);">维度</th>
+            <th style="padding:8px 10px;text-align:left;border:1px solid rgba(0,122,255,0.2);color:var(--ice-3);">广告-直播A</th>
+            <th style="padding:8px 10px;text-align:left;border:1px solid rgba(0,122,255,0.2);color:var(--ice-3);">品营-直播</th>
+            <th style="padding:8px 10px;text-align:left;border:1px solid rgba(0,122,255,0.2);color:var(--ice-3);">品创-直播</th>
+          </tr>
+          <tr>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">顶部#1稳定性</td>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">刘卿辰锁死三个月排名首位</td>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">每月换人</td>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">庄少丽登顶后守住</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">最大亮点</td>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">新人攻入#2#3</td>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">罗婷婷#21→#1</td>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">赵弘睿#21→#2</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">出口通畅度</td>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">✅</td>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">✅</td>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">✅</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">需要关注</td>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">暂无 <span class="dim">【刘已迭代，投产比不高】</span></td>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">两月跃升幅度大，需确认资源分配 <span class="warn-text">【已与部门沟通，阵近期在持续优化，从6月开始会相对稳定】</span></td>
+            <td style="padding:8px 10px;border:1px solid rgba(0,122,255,0.15);">新人多跳过中部 <span class="dim">【无异常：入职数据为高级主播，后续分析可新增岗位便于区分识别】</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">5月目标拆解情况（《目标拆解情况-2026》）</div>
+      <ul>
+        <li><b>部门-中心</b>
+          <ul class="lvl2">
+            <li>结合数据&amp;情况了解后营销额未完全拆解的主要为品营、品创、海外、利润率/额未完全下发的是电商、海外
+              <ul>
+                <li>电商：部门目标偏高，给主管定的目标更贴合业务实际</li>
+                <li>品创：总监综合目标制定难度&amp;岛民活力在5月未完全下发</li>
+                <li>海外：基于现阶段中心负责人的的关键工作，营业额指标未完全下发，利润率指标未直接下发（下发费比等指标）</li>
+                <li>品营：总监综合目标制定难度在5月未完全下发</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><b>中心-岛民</b>
+          <ul class="lvl2">
+            <li>结合数据&amp;情况了解后，需关注的营业额/利润率拆解情况主要集中于
+              <ul>
+                <li>线下渠道部（KONO）-KONO销售B中心-李慧琳<br>李慧琳：Q1季度因团队压力过高，岛民流失，主动调整绩效压力，目标制定根据过往的趋势数据与资源综合制定的目标，且明确为短期计划，可抽检6月目标观察实施情况</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p><b>营业额目标拆解情况 · 从部门-中心</b></p>
+      <ul>
+        <li>电商&amp;品营&amp;品创&amp;海外营业额目标均未完全拆解，占比57%（4/7）</li>
+        <li>品创：总监综合目标制定难度&amp;岛民活力未完全下发</li>
+        <li>品营：总监综合目标制定难度在5月未完全下发</li>
+        <li>海外：基于现阶段中心负责人的的关键工作，营业额指标未完全下发，利润率指标未直接下发（下发费比等指标）</li>
+      </ul>
+      <p><b>营业额目标拆解情况 · 从中心-岛民</b></p>
+      <ul>
+        <li>本月营业额抽检了11位主管，其中有3位（占比27.27%）主管的拆解率（岛民和/主管）≤100%，详细原因如下
+          <ul class="lvl2">
+            <li><span class="up-text">属于正常情况：</span>
+              <ul>
+                <li>电商发展部-KONO渠道A中心-李林岭：有的渠道很小，其他负责KONO的人不在KONO渠道A中心</li>
+                <li>线下渠道部-赫系-李燕彪：主管亦独立做业务，存在个人营业额指标+新岛民转入还在培训期未完全拆解</li>
+              </ul>
+            </li>
+            <li><span class="warn-text">待观察：</span>
+              <ul>
+                <li>线下渠道部（KONO）-KONO销售B中心-李慧琳：Q1季度因团队压力过高，岛民流失，主动调整绩效压力，目标制定根据过往的趋势数据与资源综合制定的目标，且明确为短期计划，可抽检6月目标观察实施情况</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p><b>利润目标拆解情况 · 从部门-中心</b></p>
+      <ul>
+        <li>从部门-中心，电商、海外未完全拆解，29%（2/7）的部门未完全拆解</li>
+        <li>电商：部门目标偏高，给主管定的目标更贴合业务实际
+          <ul class="lvl2">
+            <li>整理电商各品牌拆解情况主要是达播渠道未完全拆解，集中于KONO达播和赫系达播，从主管完成率上看，KONO达播80.72%，赫系达播154.00%，赫系可进一步提升对于主管的目标值。</li>
+          </ul>
+        </li>
+        <li>海外：基于现阶段中心负责人的的关键工作是要在营销端一定费比下的取得业绩突破，故没有直接制定利润率/额。只制定广告占比的指标，其他成本由总监把控</li>
+      </ul>
+      <p><b>利润目标拆解情况 · 从中心-岛民</b></p>
+      <ul>
+        <li>在抽检的9个主管中，有5位主管（55%）的主管完成了完全拆解，有2位主管未制定利润具体目标，2位主管目标未完全拆解
+          <ul class="lvl2">
+            <li><span class="up-text">属于正常情况：</span>
+              <ul>
+                <li>电商发展部-KONO渠道A中心-李林岭：有的渠道很小，其他负责KONO的人不在KONO渠道A中心</li>
+                <li>品牌营销部-营销中心J-吴为：排名制度之后都是GMV目标</li>
+                <li>品牌创意部-赫系营销C中心-陈志歌：定的投产比、roi目标</li>
+              </ul>
+            </li>
+            <li><span class="warn-text">待观察</span>
+              <ul>
+                <li>线下渠道部-KONO-KONO销售B中心-李慧琳：Q1季度因团队压力过高，岛民流失，主动调整绩效压力，目标制定根据过往的趋势数据与资源综合制定的目标，且明确为短期计划，可抽检6月目标观察实施情况</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p><b>其他类型-降本、财报收入</b></p>
+      <ul>
+        <li>凡岛研究院月未进行拆解，原因为总监的月度收入目标由设计&amp;开发构成，设计周期会拉长收费不稳定所以定的季度</li>
+        <li>产品供应部拆解率过高主要是由于产品供应部协作业务多，有重合目标，以及提升主管主观能动性</li>
+      </ul>
+      <p><b>从中心-岛民</b></p>
+      <ul>
+        <li>从中心到岛民，无明显异常</li>
+        <li>产品供应部-采购中心-李炜瑶：主管降本目标有变动，没有把新增的降本金额增加给岛民，7月开始会调整一致</li>
+        <li>AI效率流程部-AI效率流程A中心-肖彦博：主要原因为财报指标会拆解给项目负责人，目前中心除一位产品经理承担部分项目的负责人外，其他由彦博自行承接。给岛民会制定项目验收标准指标，更有针对于指引性。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">绩效站 · Performance Hub ｜ 数据来源：飞书文档《绩效数据报告》《目标拆解情况-2026》 ｜ 整理于 2026-08-14</div>
+</div>
+</body>
+</html>
