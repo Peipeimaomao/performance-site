@@ -17,7 +17,6 @@
     --frost: rgba(255,255,255,0.07);
     --line: rgba(0,122,255,0.18);
     --glow: rgba(0,122,255,0.4);
-    --crystal: rgba(90,200,250,0.1);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -28,7 +27,6 @@
     line-height: 1.8;
   }
 
-  /* 星空冰晶背景 */
   .bg {
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
     background:
@@ -47,24 +45,100 @@
     opacity: 0.6;
     animation: twinkle 8s ease-in-out infinite;
   }
-  @keyframes twinkle {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 0.9; }
-  }
+  @keyframes twinkle { 0%, 100% { opacity: 0.6; } 50% { opacity: 0.9; } }
 
   .wrapper { position: relative; z-index: 1; }
 
+  /* 密码锁 */
+  .lock-screen {
+    position: fixed; inset: 0; z-index: 9999;
+    background: linear-gradient(180deg, #0d1117, #05080c);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .lock-card {
+    width: 100%; max-width: 380px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+    border: 1px solid rgba(0,122,255,0.25);
+    border-radius: 22px;
+    padding: 40px 32px;
+    backdrop-filter: blur(20px) saturate(1.4);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(0,122,255,0.08);
+    text-align: center;
+  }
+  .lock-card .lock-icon {
+    width: 56px; height: 56px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #007aff, #5ac8fa);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 24px rgba(0,122,255,0.35);
+  }
+  .lock-card .lock-icon svg { width: 26px; height: 26px; fill: #fff; }
+  .lock-card h2 {
+    font-size: 1.3rem; font-weight: 400; color: #fff;
+    letter-spacing: 0.1em; margin-bottom: 6px;
+  }
+  .lock-card .hint {
+    font-size: 0.8rem; color: rgba(255,255,255,0.45);
+    letter-spacing: 0.05em; margin-bottom: 26px;
+  }
+  .lock-input-wrap {
+    position: relative;
+    display: flex; align-items: center;
+  }
+  .lock-input {
+    width: 100%; padding: 13px 50px 13px 16px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(0,122,255,0.3);
+    border-radius: 12px;
+    color: #fff; font-size: 1rem; letter-spacing: 0.08em;
+    outline: none; text-align: center;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .lock-input:focus {
+    border-color: #007aff;
+    box-shadow: 0 0 20px rgba(0,122,255,0.25);
+  }
+  .lock-toggle {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer;
+    color: rgba(255,255,255,0.5); font-size: 18px;
+    padding: 4px; display: flex; align-items: center; justify-content: center;
+    transition: color 0.2s;
+  }
+  .lock-toggle:hover { color: #fff; }
+  .lock-toggle svg { width: 20px; height: 20px; fill: currentColor; }
+  .lock-btn {
+    width: 100%; margin-top: 16px; padding: 13px;
+    background: linear-gradient(135deg, #007aff, #5ac8fa);
+    border: none; border-radius: 12px;
+    color: #fff; font-size: 1rem; font-weight: 500;
+    letter-spacing: 0.15em; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .lock-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(0,122,255,0.4);
+  }
+  .lock-btn:active { transform: translateY(0); }
+  .lock-err {
+    margin-top: 12px; min-height: 20px;
+    font-size: 0.8rem; color: #ff6961;
+    letter-spacing: 0.03em;
+    transition: opacity 0.3s;
+  }
+
   /* 首图 */
   .hero {
-    position: relative; height: 100vh; min-height: 650px;
+    position: relative;
+    height: 100vh; min-height: 650px;
     display: flex; align-items: center; justify-content: center;
     overflow: hidden;
   }
   .hero img {
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover; object-position: center 35%;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
   }
   .hero .veil {
     position: absolute; inset: 0;
@@ -97,186 +171,20 @@
     box-shadow: 0 0 20px rgba(0,122,255,0.4);
   }
 
-  /* 内容区 */
-  .section {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 100px 32px;
-  }
-  .section-head {
-    text-align: center;
-    margin-bottom: 70px;
-  }
-  .section-head h2 {
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    font-weight: 300;
-    letter-spacing: 0.15em;
-    color: var(--ice-1);
-    text-shadow: 0 0 30px rgba(0,122,255,0.2);
-  }
-  .section-head .en {
-    color: #5ac8fa;
-    letter-spacing: 0.3em;
-    margin-top: 12px;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-  }
-  .section-head .bar {
-    width: 60px; height: 1px;
-    background: linear-gradient(90deg, transparent, #007aff, transparent);
-    margin: 28px auto 0;
-    box-shadow: 0 0 15px rgba(0,122,255,0.4);
-  }
-
-  /* 文件夹层级 */
-  .folder-tree {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  /* 磨砂文件夹卡片 */
-  .folder-card {
-    background: linear-gradient(160deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03));
-    border: 1px solid rgba(180,220,255,0.18);
-    border-radius: 22px;
-    padding: 24px 28px;
-    backdrop-filter: blur(20px) saturate(1.4);
-    -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    user-select: none;
-  }
-  .folder-card::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-  }
-  .folder-card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 22px;
-    background: radial-gradient(ellipse 600px 300px at 30% 0%, rgba(0,122,255,0.05), transparent 70%);
-    pointer-events: none;
-  }
-  .folder-card:hover {
-    border-color: rgba(0,122,255,0.3);
-    box-shadow: 0 16px 50px rgba(0,10,30,0.6), 0 0 30px rgba(0,122,255,0.1);
-    transform: translateY(-2px);
-  }
-
-  .folder-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+  /* 首图到内容的渐变过渡带 */
+  .fade-hero {
+    height: 180px;
+    background: linear-gradient(180deg, rgb(98,133,188) 0%, rgba(98,133,188,0.6) 30%, rgba(98,133,188,0.25) 60%, rgba(5,8,12,0.1) 85%, var(--deep-3) 100%);
     position: relative;
     z-index: 1;
   }
-  .folder-icon {
-    width: 48px; height: 48px;
-    background: linear-gradient(135deg, #007aff, #5ac8fa);
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 16px rgba(0,122,255,0.35);
-    flex-shrink: 0;
-  }
-  .folder-icon svg {
-    width: 24px; height: 24px;
-    fill: var(--ice-1);
-  }
-  .folder-info {
-    flex: 1;
-  }
-  .folder-name {
-    font-size: 1.25rem;
-    font-weight: 400;
-    color: var(--ice-1);
-    letter-spacing: 0.08em;
-  }
-  .folder-desc {
-    font-size: 0.85rem;
-    color: var(--ice-2);
-    opacity: 0.6;
-    margin-top: 4px;
-    letter-spacing: 0.03em;
-  }
-  .folder-arrow {
-    width: 28px; height: 28px;
-    display: flex; align-items: center; justify-content: center;
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 0.5;
-  }
-  .folder-arrow svg {
-    width: 16px; height: 16px;
-    fill: #5ac8fa;
-  }
-  .folder-card.open > .folder-row .folder-arrow {
-    transform: rotate(90deg);
-    opacity: 0.8;
-  }
 
-  /* 子文件夹容器（默认隐藏） */
-  .folder-children {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s, margin 0.4s;
-    opacity: 0;
-    margin-top: 0;
-    margin-left: 24px;
-    padding-left: 20px;
-    border-left: 1px solid rgba(0,122,255,0.12);
-  }
-  .folder-card.open > .folder-children {
-    max-height: 600px;
-    opacity: 1;
-    margin-top: 16px;
-  }
-
-  /* 子文件夹卡片（复用样式，尺寸略小） */
-  .folder-children .folder-card {
-    padding: 18px 22px;
-    border-radius: 16px;
-    margin-bottom: 10px;
-    background: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
-  }
-  .folder-children .folder-card:last-child {
-    margin-bottom: 0;
-  }
-  .folder-children .folder-icon {
-    width: 38px; height: 38px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #34a1ff, #7dd3fc);
-    box-shadow: 0 3px 12px rgba(0,122,255,0.3);
-  }
-  .folder-children .folder-icon svg {
-    width: 18px; height: 18px;
-  }
-  .folder-children .folder-name {
-    font-size: 1.05rem;
-  }
-  .folder-children .folder-desc {
-    font-size: 0.8rem;
-  }
-
-  /* 叶子节点（无子文件夹，不可点击展开） */
-  .folder-card.leaf {
-    cursor: default;
-  }
-  .folder-card.leaf .folder-arrow {
-    display: none;
-  }
-  .folder-card.leaf:hover {
-    transform: none;
-  }
-  .folder-card.leaf .folder-icon {
-    background: linear-gradient(135deg, #0088ff, #66d4ff);
+  /* 内容到尾图的渐变过渡带 */
+  .fade-footer {
+    height: 180px;
+    background: linear-gradient(180deg, var(--deep-3) 0%, rgba(5,8,12,0.2) 30%, rgba(90,112,155,0.3) 60%, rgba(90,112,155,0.7) 85%, rgb(90,112,155) 100%);
+    position: relative;
+    z-index: 1;
   }
 
   /* 尾图 */
@@ -293,8 +201,6 @@
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover; object-position: center center;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
   }
   .footer .veil {
     position: absolute; inset: 0;
@@ -321,83 +227,135 @@
     opacity: 0.8;
   }
 
-  /* 文件项 */
-  .file-item {
+  /* 导航栏 */
+  .nav-bar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(5,8,12,0.85);
+    backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(0,122,255,0.15);
+    padding: 16px 32px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .nav-logo {
+    font-size: 1.2rem; font-weight: 400;
+    letter-spacing: 0.15em;
+    background: linear-gradient(135deg, #fff, #5ac8fa);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .nav-breadcrumb {
+    flex: 1;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.9rem;
+    color: var(--ice-2);
+    opacity: 0.8;
+    flex-wrap: wrap;
+  }
+  .nav-breadcrumb a {
+    color: var(--ice-3);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-breadcrumb a:hover { color: #fff; }
+  .nav-breadcrumb .sep { opacity: 0.4; }
+  .nav-actions { display: flex; gap: 10px; }
+  .nav-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(0,122,255,0.3);
+    background: rgba(0,122,255,0.1);
+    color: var(--ice-3);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover {
+    background: rgba(0,122,255,0.2);
+    border-color: rgba(0,122,255,0.5);
+    color: #fff;
+  }
+
+  /* 内容区 */
+  .content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 32px;
+  }
+
+  .item-list {
     display: flex;
-    align-items: center;
-    gap: 14px;
-    background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
-    border: 1px solid rgba(0,122,255,0.1);
-    border-radius: 14px;
-    padding: 14px 18px;
-    margin-bottom: 8px;
-    transition: all 0.3s;
+    flex-direction: column;
+    gap: 12px;
   }
-  .file-item:last-child { margin-bottom: 0; }
-  .file-item:hover {
-    background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.025));
-    border-color: rgba(0,122,255,0.22);
-    transform: translateX(4px);
+
+  .item-card {
+    background: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+    border: 1px solid rgba(0,122,255,0.15);
+    border-radius: 16px;
+    padding: 20px 24px;
+    backdrop-filter: blur(20px) saturate(1.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    display: flex; align-items: center; gap: 16px;
   }
-  .file-icon {
-    width: 36px; height: 36px;
-    background: linear-gradient(135deg, #34c759, #30d158);
-    border-radius: 9px;
+  .item-card:hover {
+    border-color: rgba(0,122,255,0.3);
+    box-shadow: 0 12px 40px rgba(0,10,30,0.5), 0 0 25px rgba(0,122,255,0.1);
+    transform: translateY(-2px);
+  }
+
+  .item-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
-    box-shadow: 0 3px 10px rgba(52,199,89,0.25);
-    font-size: 11px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.5px;
   }
-  .file-info {
-    flex: 1;
-    min-width: 0;
+  .item-icon.folder {
+    background: linear-gradient(135deg, #007aff, #5ac8fa);
+    box-shadow: 0 4px 16px rgba(0,122,255,0.35);
   }
-  .file-name {
-    font-size: 0.95rem;
+  .item-icon.file {
+    background: linear-gradient(135deg, #34c759, #30d158);
+    box-shadow: 0 4px 16px rgba(52,199,89,0.3);
+  }
+  .item-icon svg { width: 24px; height: 24px; fill: #fff; }
+
+  .item-info { flex: 1; min-width: 0; }
+  .item-name {
+    font-size: 1.1rem; font-weight: 400;
     color: var(--ice-1);
-    letter-spacing: 0.03em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
   }
-  .file-meta {
-    font-size: 0.75rem;
-    color: var(--ice-3);
+  .item-desc {
+    font-size: 0.85rem;
+    color: var(--ice-2);
     opacity: 0.6;
-    margin-top: 2px;
   }
-  .file-actions {
-    display: flex;
-    gap: 8px;
+  .item-meta {
+    display: flex; gap: 16px;
+    font-size: 0.78rem;
+    color: var(--ice-3);
+    opacity: 0.7;
+    flex-wrap: wrap;
+  }
+
+  .item-actions {
+    display: flex; gap: 8px;
     flex-shrink: 0;
+    flex-wrap: wrap;
   }
   .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 14px;
+    padding: 7px 14px;
     border-radius: 8px;
     font-size: 0.8rem;
     letter-spacing: 0.05em;
     text-decoration: none;
     border: 1px solid;
-    transition: all 0.25s;
+    transition: all 0.2s;
     cursor: pointer;
-    gap: 4px;
-  }
-  .btn-download {
-    background: rgba(0,122,255,0.12);
-    border-color: rgba(0,122,255,0.3);
-    color: #5ac8fa;
-  }
-  .btn-download:hover {
-    background: rgba(0,122,255,0.25);
-    border-color: rgba(0,122,255,0.5);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(0,122,255,0.15);
+    display: inline-flex; align-items: center; gap: 4px;
+    white-space: nowrap;
   }
   .btn-preview {
     background: rgba(0,122,255,0.12);
@@ -408,7 +366,16 @@
     background: rgba(0,122,255,0.25);
     border-color: rgba(0,122,255,0.5);
     color: #fff;
-    box-shadow: 0 0 15px rgba(0,122,255,0.15);
+  }
+  .btn-edit {
+    background: rgba(255,149,0,0.12);
+    border-color: rgba(255,149,0,0.3);
+    color: #ff9500;
+  }
+  .btn-edit:hover {
+    background: rgba(255,149,0,0.22);
+    border-color: rgba(255,149,0,0.5);
+    color: #fff;
   }
   .btn-download {
     background: rgba(52,199,89,0.12);
@@ -420,6 +387,104 @@
     border-color: rgba(52,199,89,0.5);
     color: #fff;
   }
+  .btn-delete {
+    background: rgba(255,59,48,0.12);
+    border-color: rgba(255,59,48,0.3);
+    color: #ff3b30;
+  }
+  .btn-delete:hover {
+    background: rgba(255,59,48,0.22);
+    border-color: rgba(255,59,48,0.5);
+    color: #fff;
+  }
+
+  /* 操作选择弹窗 */
+  .action-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(3,6,10,0.75);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .action-overlay.show { display: flex; }
+  .action-card {
+    width: 100%; max-width: 420px;
+    background: linear-gradient(180deg, #0b1420, #080d14);
+    border: 1px solid rgba(0,122,255,0.25);
+    border-radius: 18px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(0,122,255,0.1);
+    padding: 28px;
+    text-align: center;
+  }
+  .action-card h3 {
+    font-size: 1.15rem; font-weight: 400;
+    color: var(--ice-1);
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .action-card .sub {
+    font-size: 0.8rem; color: var(--ice-2);
+    opacity: 0.6; margin-bottom: 22px;
+    letter-spacing: 0.03em;
+  }
+  .action-btns {
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .action-btn {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 20px;
+    border-radius: 14px;
+    border: 1px solid rgba(0,122,255,0.2);
+    background: rgba(255,255,255,0.04);
+    color: var(--ice-1);
+    cursor: pointer;
+    transition: all 0.25s;
+    text-align: left;
+    font-size: 0.95rem;
+  }
+  .action-btn:hover {
+    border-color: rgba(0,122,255,0.5);
+    background: rgba(0,122,255,0.12);
+    transform: translateY(-1px);
+  }
+  .action-btn .icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .action-btn .icon.folder {
+    background: linear-gradient(135deg, #007aff, #5ac8fa);
+    box-shadow: 0 3px 12px rgba(0,122,255,0.3);
+  }
+  .action-btn .icon.upload {
+    background: linear-gradient(135deg, #007aff, #5ac8fa);
+    box-shadow: 0 3px 12px rgba(0,122,255,0.3);
+  }
+  .action-btn .icon svg { width: 20px; height: 20px; fill: #fff; }
+  .action-btn .txt { flex: 1; }
+  .action-btn .txt .t {
+    font-size: 0.98rem; color: var(--ice-1);
+    letter-spacing: 0.05em;
+  }
+  .action-btn .txt .d {
+    font-size: 0.75rem; color: var(--ice-2);
+    opacity: 0.55; margin-top: 2px;
+  }
+  .action-close {
+    margin-top: 16px;
+    padding: 9px;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: transparent;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .action-close:hover { background: rgba(255,255,255,0.08); color: #fff; }
 
   /* 预览模态框 */
   .modal-overlay {
@@ -453,9 +518,7 @@
     color: var(--ice-1);
     letter-spacing: 0.05em;
   }
-  .modal-head .sheet-tabs {
-    display: flex; gap: 6px; flex-wrap: wrap;
-  }
+  .modal-head .sheet-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
   .modal-head .tab {
     padding: 5px 12px;
     border-radius: 7px;
@@ -477,22 +540,13 @@
     background: transparent;
     color: rgba(255,255,255,0.7);
     font-size: 18px;
-    line-height: 1;
     cursor: pointer;
     transition: all 0.2s;
     display:flex; align-items:center; justify-content:center;
   }
   .modal-close:hover { background: rgba(255,255,255,0.1); color: #fff; }
-  .modal-body {
-    flex: 1;
-    overflow: auto;
-    padding: 6px;
-  }
-  .modal-body table {
-    border-collapse: collapse;
-    width: 100%;
-    font-size: 0.82rem;
-  }
+  .modal-body { flex: 1; overflow: auto; padding: 6px; }
+  .modal-body table { border-collapse: collapse; width: 100%; font-size: 0.82rem; }
   .modal-body th {
     position: sticky; top: 0;
     background: #101c2c;
@@ -523,22 +577,54 @@
     opacity: 0.7;
   }
 
+  /* 空状态 */
+  .empty {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--ice-2);
+    opacity: 0.5;
+  }
+  .empty svg {
+    width: 64px; height: 64px;
+    fill: currentColor;
+    margin-bottom: 20px;
+    opacity: 0.4;
+  }
+
   /* 响应式 */
   @media (max-width: 768px) {
-    .section { padding: 70px 20px; }
-    .folder-item { padding: 22px 20px; }
-    .folder-desc { margin-left: 0; margin-top: 12px; }
-    .subfolder { margin-left: 20px; padding-left: 16px; }
+    .content { padding: 40px 20px; }
+    .item-card { flex-wrap: wrap; }
+    .item-actions { width: 100%; justify-content: flex-end; margin-top: 12px; }
+    .nav-bar { padding: 12px 16px; }
   }
 </style>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
+<!-- 密码锁 -->
+<div class="lock-screen" id="lockScreen">
+  <div class="lock-card">
+    <div class="lock-icon">
+      <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+    </div>
+    <h2>绩效站</h2>
+    <div class="hint">请输入访问密码</div>
+    <div class="lock-input-wrap">
+      <input type="password" class="lock-input" id="lockInput" placeholder="密码" autocomplete="off">
+      <button class="lock-toggle" id="lockToggle" type="button" title="显示/隐藏密码">
+        <svg id="eyeIcon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </button>
+    </div>
+    <button class="lock-btn" id="lockBtn">进入</button>
+    <div class="lock-err" id="lockErr"></div>
+  </div>
+</div>
+
 <div class="bg"></div>
 <div class="wrapper">
-
-  <!-- 首图 -->
-  <header class="hero">
+  <!-- 首图（仅首页显示） -->
+  <header class="hero" id="heroSection">
     <img src="images/header.jpg" alt="绩效站">
     <div class="veil"></div>
     <div class="title">
@@ -548,130 +634,23 @@
     </div>
   </header>
 
-  <!-- 绩效数据 -->
-  <section class="section">
-    <div class="section-head">
-      <h2>绩效数据</h2>
-      <div class="en">Performance Data</div>
-      <div class="bar"></div>
+  <!-- 首图到内容的渐变过渡 -->
+  <div class="fade-hero" id="heroFade"></div>
+
+  <!-- 导航栏 -->
+  <nav class="nav-bar">
+    <div class="nav-logo">绩效站</div>
+    <div class="nav-breadcrumb" id="breadcrumb"></div>
+    <div class="nav-actions">
+      <button class="nav-btn" onclick="showAddDialog()">+ 添加文件</button>
     </div>
+  </nav>
 
-    <div class="folder-tree">
-      <!-- 绩效数据（根文件夹） -->
-      <div class="folder-card" onclick="toggleFolder(this)">
-        <div class="folder-row">
-          <div class="folder-icon">
-            <svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
-          </div>
-          <div class="folder-info">
-            <div class="folder-name">绩效数据</div>
-            <div class="folder-desc">各部门、各中心的绩效完成情况与考核数据管理</div>
-          </div>
-          <div class="folder-arrow">
-            <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-          </div>
-        </div>
+  <!-- 内容区 -->
+  <main class="content" id="content"></main>
 
-        <div class="folder-children">
-          <!-- 2026 -->
-          <div class="folder-card" onclick="toggleFolder(this)">
-            <div class="folder-row">
-              <div class="folder-icon">
-                <svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
-              </div>
-              <div class="folder-info">
-                <div class="folder-name">2026</div>
-                <div class="folder-desc">年度绩效数据</div>
-              </div>
-              <div class="folder-arrow">
-                <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-              </div>
-            </div>
-
-            <div class="folder-children" id="file-list">
-              <div class="file-item">
-                <div class="file-icon">XLSX</div>
-                <div class="file-info">
-                  <div class="file-name">云盘-原始</div>
-                  <div class="file-meta">约895 KB</div>
-                </div>
-                <div class="file-actions">
-<button class="btn btn-preview" onclick="previewExcel('26-07/云盘-原始.xlsx')">预览</button>
-<a class="btn btn-download" href="26-07/云盘-原始.xlsx" download>下载</a>
-                </div>
-              </div>
-              <div class="file-item">
-                <div class="file-icon">XLSX</div>
-                <div class="file-info">
-                  <div class="file-name">云盘-原始（副本）</div>
-                  <div class="file-meta">约895 KB</div>
-                </div>
-                <div class="file-actions">
-<button class="btn btn-preview" onclick="previewExcel('26-07/云盘-原始（副本）.xlsx')">预览</button>
-<a class="btn btn-download" href="26-07/云盘-原始（副本）.xlsx" download>下载</a>
-                </div>
-              </div>
-              <div class="file-item">
-                <div class="file-icon">XLSX</div>
-                <div class="file-info">
-                  <div class="file-name">系统-原始</div>
-                  <div class="file-meta">约895 KB</div>
-                </div>
-                <div class="file-actions">
-<button class="btn btn-preview" onclick="previewExcel('26-07/系统-原始.xlsx')">预览</button>
-<a class="btn btn-download" href="26-07/系统-原始.xlsx" download>下载</a>
-                </div>
-              </div>
-              <div class="file-item">
-                <div class="file-icon">XLSX</div>
-                <div class="file-info">
-                  <div class="file-name">系统-原始（副本）</div>
-                  <div class="file-meta">约895 KB</div>
-                </div>
-                <div class="file-actions">
-<button class="btn btn-preview" onclick="previewExcel('26-07/系统-原始（副本）.xlsx')">预览</button>
-<a class="btn btn-download" href="26-07/系统-原始（副本）.xlsx" download>下载</a>
-                </div>
-              </div>
-              <div class="file-item">
-                <div class="file-icon">XLSX</div>
-                <div class="file-info">
-                  <div class="file-name">整合-原始</div>
-                  <div class="file-meta">约895 KB</div>
-                </div>
-                <div class="file-actions">
-<button class="btn btn-preview" onclick="previewExcel('26-07/整合-原始.xlsx')">预览</button>
-<a class="btn btn-download" href="26-07/整合-原始.xlsx" download>下载</a>
-                </div>
-              </div>
-              <div class="file-item">
-                <div class="file-icon">XLSX</div>
-                <div class="file-info">
-                  <div class="file-name">整合-校准（副本）</div>
-                  <div class="file-meta">约895 KB</div>
-                </div>
-                <div class="file-actions">
-<button class="btn btn-preview" onclick="previewExcel('26-07/整合-校准（副本）.xlsx')">预览</button>
-<a class="btn btn-download" href="26-07/整合-校准（副本）.xlsx" download>下载</a>
-                </div>
-              </div>
-              <div class="file-item">
-                <div class="file-icon">XLSX</div>
-                <div class="file-info">
-                  <div class="file-name">OA名单</div>
-                  <div class="file-meta">约895 KB</div>
-                </div>
-                <div class="file-actions">
-<button class="btn btn-preview" onclick="previewExcel('26-07/OA名单.xlsx')">预览</button>
-<a class="btn btn-download" href="26-07/OA名单.xlsx" download>下载</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- 内容到尾图的渐变过渡 -->
+  <div class="fade-footer"></div>
 
   <!-- 尾图 -->
   <footer class="footer">
@@ -682,7 +661,6 @@
       <p>数据驱动 · 价值导向</p>
     </div>
   </footer>
-
 </div>
 
 <!-- 预览模态框 -->
@@ -698,31 +676,308 @@
   </div>
 </div>
 
+<!-- 操作选择弹窗 -->
+<div class="action-overlay" id="actionModal">
+  <div class="action-card">
+    <h3>添加</h3>
+    <div class="sub">选择要执行的操作</div>
+    <div class="action-btns">
+      <button class="action-btn" onclick="newFolder()">
+        <div class="icon folder">
+          <svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+        </div>
+        <div class="txt">
+          <div class="t">新建文件夹</div>
+          <div class="d">在当前目录下创建新的子文件夹</div>
+        </div>
+      </button>
+      <button class="action-btn" onclick="addLocalFile()">
+        <div class="icon upload">
+          <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
+        </div>
+        <div class="txt">
+          <div class="t">添加本地文件</div>
+          <div class="d">从电脑选择文件上传到当前文件夹</div>
+        </div>
+      </button>
+    </div>
+    <button class="action-close" onclick="closeActionModal()">取消</button>
+  </div>
+</div>
+
 <script>
-function toggleFolder(el) {
-  el.classList.toggle('open');
+// ========== 文件数据（内嵌，本地打开也能用） ==========
+var FILE_DATA = {
+  "绩效数据": {
+    "desc": "各部门、各中心的绩效完成情况与考核数据管理",
+    "children": {
+      "2026": {
+        "desc": "年度绩效数据",
+        "children": {
+          "26-07": {
+            "desc": "7月绩效数据",
+            "files": [
+              {"name": "云盘-原始", "path": "26-07/云盘-原始.xlsx", "size": "约895 KB", "modified": "2026-07-15"},
+              {"name": "云盘-原始（副本）", "path": "26-07/云盘-原始（副本）.xlsx", "size": "约895 KB", "modified": "2026-07-15"},
+              {"name": "系统-原始", "path": "26-07/系统-原始.xlsx", "size": "约895 KB", "modified": "2026-07-15"},
+              {"name": "系统-原始（副本）", "path": "26-07/系统-原始（副本）.xlsx", "size": "约895 KB", "modified": "2026-07-15"},
+              {"name": "整合-原始", "path": "26-07/整合-原始.xlsx", "size": "约895 KB", "modified": "2026-07-15"},
+              {"name": "整合-校准（副本）", "path": "26-07/整合-校准（副本）.xlsx", "size": "约895 KB", "modified": "2026-07-15"},
+              {"name": "OA名单", "path": "26-07/OA名单.xlsx", "size": "约895 KB", "modified": "2026-07-15"}
+            ]
+          },
+          "26-08": {
+            "desc": "8月绩效数据",
+            "files": [
+              {"name": "云盘-原始", "path": "26-08/云盘-原始.xlsx", "size": "待上传", "modified": "2026-08-15"},
+              {"name": "系统-原始", "path": "26-08/系统-原始.xlsx", "size": "待上传", "modified": "2026-08-15"}
+            ]
+          }
+        }
+      }
+    }
+  },
+  "绩效分析": {
+    "desc": "月度绩效分析报告与逐字稿",
+    "children": {
+      "26-5~7": {
+        "desc": "2026年5-7月绩效分析报告",
+        "files": [
+          {"name": "绩效报告逐字稿-2026年5-7月（合并版）", "path": "绩效分析/26-5~7/绩效报告逐字稿-2026年5-7月.html", "size": "约40 KB", "modified": "2026-08-14"},
+          {"name": "绩效报告逐字稿-2026年5月", "path": "绩效分析/26-5~7/绩效报告逐字稿-2026年5月.html", "size": "约17 KB", "modified": "2026-08-14"},
+          {"name": "绩效报告逐字稿-2026年6月", "path": "绩效分析/26-5~7/绩效报告逐字稿-2026年6月.html", "size": "约15 KB", "modified": "2026-08-14"},
+          {"name": "绩效报告逐字稿-2026年7月", "path": "绩效分析/26-5~7/绩效报告逐字稿-2026年7月.html", "size": "约8 KB", "modified": "2026-08-14"}
+        ]
+      }
+    }
+  }
+};
+
+// ========== 密码锁 ==========
+var PASSWORD = 'Ox2Bri0dg2e6';
+var LOCK_KEY = 'perf_site_auth_v1';
+
+function tryEnter() {
+  var inp = document.getElementById('lockInput');
+  var err = document.getElementById('lockErr');
+  if (!inp || !inp.value) { if (err) err.textContent = '请输入密码'; return; }
+  if (inp.value === PASSWORD) {
+    try { localStorage.setItem(LOCK_KEY, '1'); } catch(e) {}
+    var ls = document.getElementById('lockScreen');
+    if (ls) ls.style.display = 'none';
+    document.body.style.overflow = '';
+    render();
+  } else {
+    if (err) err.textContent = '密码错误，请重试';
+    inp.value = '';
+    inp.focus();
+  }
 }
 
-// SheetJS 预览
+// 显示/隐藏密码
+var toggleEl = document.getElementById('lockToggle');
+if (toggleEl) toggleEl.addEventListener('click', function() {
+  var inp = document.getElementById('lockInput');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+  } else {
+    inp.type = 'password';
+  }
+});
+
+var btnEl = document.getElementById('lockBtn');
+if (btnEl) btnEl.addEventListener('click', tryEnter);
+
+var inputEl = document.getElementById('lockInput');
+if (inputEl) inputEl.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') tryEnter();
+});
+
+// ========== 应用逻辑 ==========
+var currentPath = [];
+
+function parseHash() {
+  var hash = location.hash.slice(1);
+  currentPath = hash ? hash.split('/') : [];
+}
+
+function getNode(path) {
+  var node = FILE_DATA;
+  for (var i = 0; i < path.length; i++) {
+    var seg = path[i];
+    if (node && node.children && node.children[seg]) {
+      node = node.children[seg];
+    } else {
+      return null;
+    }
+  }
+  return node;
+}
+
+function render() {
+  parseHash();
+  var node = getNode(currentPath);
+  if (!node) {
+    currentPath = [];
+    node = FILE_DATA;
+  }
+  // 首页显示首图，子页面隐藏
+  var hero = document.getElementById('heroSection');
+  var heroFade = document.getElementById('heroFade');
+  var isHome = (currentPath.length === 0);
+  if (hero) hero.style.display = isHome ? '' : 'none';
+  if (heroFade) heroFade.style.display = isHome ? '' : 'none';
+  renderBreadcrumb();
+  renderContent(node);
+}
+
+function renderBreadcrumb() {
+  var bc = document.getElementById('breadcrumb');
+  if (!bc) return;
+  var html = '<a href="#/">首页</a>';
+  var acc = [];
+  for (var i = 0; i < currentPath.length; i++) {
+    acc.push(currentPath[i]);
+    html += '<span class="sep">/</span>';
+    if (i === currentPath.length - 1) {
+      html += '<span>' + currentPath[i] + '</span>';
+    } else {
+      html += '<a href="#/' + acc.join('/') + '">' + currentPath[i] + '</a>';
+    }
+  }
+  bc.innerHTML = html;
+}
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderContent(node) {
+  var el = document.getElementById('content');
+  if (!el) return;
+  var html = '<div class="item-list">';
+
+  // 子文件夹
+  if (node.children) {
+    Object.keys(node.children).forEach(function(name) {
+      var child = node.children[name];
+      var newPath = currentPath.concat([name]).join('/');
+      html += '<div class="item-card" onclick="location.hash=\'#/' + newPath + '\'">';
+      html += '<div class="item-icon folder"><svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg></div>';
+      html += '<div class="item-info"><div class="item-name">' + esc(name) + '</div>';
+      if (child.desc) html += '<div class="item-desc">' + esc(child.desc) + '</div>';
+      html += '</div><div class="item-actions"><span class="btn btn-preview" style="cursor:pointer;pointer-events:none;opacity:0.6">打开 →</span></div></div>';
+    });
+  }
+
+  // 文件
+  if (node.files) {
+    node.files.forEach(function(file, idx) {
+      html += '<div class="item-card" style="cursor:default">';
+      html += '<div class="item-icon file"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg></div>';
+      html += '<div class="item-info">';
+      html += '<div class="item-name">' + esc(file.name) + '</div>';
+      html += '<div class="item-meta">';
+      if (file.size) html += '<span>' + esc(file.size) + '</span>';
+      if (file.modified) html += '<span>📅 修改于 ' + esc(file.modified) + '</span>';
+      html += '</div></div>';
+      html += '<div class="item-actions">';
+      html += '<button class="btn btn-preview" onclick="previewExcel(\'' + esc(file.path) + '\')">预览</button>';
+      html += '<button class="btn btn-edit" onclick="editInWPS(\'' + esc(file.path) + '\')">编辑</button>';
+      html += '<a class="btn btn-download" href="' + esc(file.path) + '" download>下载</a>';
+      html += '<button class="btn btn-delete" onclick="deleteFile(' + idx + ')">删除</button>';
+      html += '</div></div>';
+    });
+  }
+
+  var hasChildren = node.children && Object.keys(node.children).length > 0;
+  var hasFiles = node.files && node.files.length > 0;
+  if (!hasChildren && !hasFiles) {
+    html += '<div class="empty"><svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg><div>此文件夹为空</div></div>';
+  }
+
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function editInWPS(path) {
+  alert('在线编辑需要先将文件上传到WPS云文档。\n\n操作步骤：\n1. 下载文件到本地\n2. 用WPS打开并编辑\n3. 保存后重新上传到网站文件夹\n\n（WPS在线编辑需要文件在WPS云端，且需要配置链接）');
+}
+
+function deleteFile(idx) {
+  if (!confirm('确定要删除「' + FILE_DATA && currentPath && getNode(currentPath).files[idx].name + '」吗？')) return;
+  var node = getNode(currentPath);
+  if (node && node.files) {
+    node.files.splice(idx, 1);
+    render();
+  }
+}
+
+function showAddDialog() {
+  document.getElementById('actionModal').classList.add('show');
+}
+
+function closeActionModal() {
+  document.getElementById('actionModal').classList.remove('show');
+}
+
+function newFolder() {
+  closeActionModal();
+  var name = prompt('请输入新文件夹名称：');
+  if (!name) return;
+  var node = getNode(currentPath);
+  if (!node.children) node.children = {};
+  if (node.children[name]) { alert('该文件夹已存在'); return; }
+  node.children[name] = { desc: '', children: {} };
+  render();
+  alert('已新建文件夹「' + name + '」。\n\n注意：当前为本地预览，实际生效需重新部署到GitHub。');
+}
+
+function addLocalFile() {
+  closeActionModal();
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.multiple = true;
+  input.onchange = function() {
+    var files = Array.prototype.slice.call(input.files);
+    if (!files.length) return;
+    var node = getNode(currentPath);
+    if (!node.files) node.files = [];
+    files.forEach(function(f) {
+      node.files.push({
+        name: f.name,
+        path: currentPath.join('/') + (currentPath.length ? '/' : '') + f.name,
+        size: (f.size / 1024).toFixed(0) + ' KB',
+        modified: new Date().toISOString().slice(0, 10)
+      });
+    });
+    render();
+    alert('已添加 ' + files.length + ' 个文件。\n\n注意：本地预览无法真正上传文件，需将文件复制到网站目录并重新部署到GitHub。');
+  };
+  input.click();
+}
+
+// ========== Excel预览 ==========
 var _wbCache = {};
 
 function previewExcel(url) {
   var overlay = document.getElementById('previewModal');
+  if (!overlay) return;
   overlay.classList.add('show');
   document.getElementById('modalTitle').textContent = url.split('/').pop();
-  document.getElementById('modalBody').innerHTML = '<div style="padding:40px;text-align:center;color:#5ac8fa">加载中…</div>';
-  document.getElementById('modalStatus').textContent = '正在加载表格…';
+  document.getElementById('modalBody').innerHTML = '<div style="padding:40px;text-align:center;color:#5ac8fa">加载中...</div>';
+  document.getElementById('modalStatus').textContent = '正在加载表格...';
   document.getElementById('sheetTabs').innerHTML = '';
 
   fetch(url)
-    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.arrayBuffer(); })
-    .then(function(buf){
-      var wb = XLSX.read(buf, {type:'array'});
+    .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.arrayBuffer(); })
+    .then(function(buf) {
+      var wb = XLSX.read(buf, {type: 'array'});
       _wbCache[url] = wb;
       renderSheets(url, wb, 0);
     })
-    .catch(function(e){
-      document.getElementById('modalBody').innerHTML = '<div style="padding:40px;text-align:center;color:#ff6961">加载失败：'+e.message+'</div>';
+    .catch(function(e) {
+      document.getElementById('modalBody').innerHTML = '<div style="padding:40px;text-align:center;color:#ff6961">加载失败：' + e.message + '</div>';
       document.getElementById('modalStatus').textContent = '预览失败';
     });
 }
@@ -731,11 +986,11 @@ function renderSheets(url, wb, idx) {
   var names = wb.SheetNames;
   var tabs = document.getElementById('sheetTabs');
   tabs.innerHTML = '';
-  names.forEach(function(n, i){
+  names.forEach(function(n, i) {
     var t = document.createElement('span');
-    t.className = 'tab' + (i===idx?' active':'');
+    t.className = 'tab' + (i === idx ? ' active' : '');
     t.textContent = n;
-    t.onclick = function(){ renderSheet(url, wb, i, names); };
+    t.onclick = function() { renderSheet(url, wb, i, names); renderSheets(url, wb, i); };
     tabs.appendChild(t);
   });
   renderSheet(url, wb, idx, names);
@@ -743,24 +998,21 @@ function renderSheets(url, wb, idx) {
 
 function renderSheet(url, wb, idx, names) {
   var ws = wb.Sheets[names[idx]];
-  var aoa = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+  var aoa = XLSX.utils.sheet_to_json(ws, {header: 1, defval: ''});
   var body = document.getElementById('modalBody');
   if (!aoa.length) { body.innerHTML = '<div style="padding:40px;text-align:center;color:#888">该工作表无数据</div>'; return; }
 
   var html = '<table><thead><tr>';
   var header = aoa[0] || [];
-  header.forEach(function(h){
-    html += '<th>' + String(h==null?'':h) + '</th>';
-  });
+  header.forEach(function(h) { html += '<th>' + esc(h) + '</th>'; });
   html += '</tr></thead><tbody>';
   var maxRows = 500;
-  var shown = Math.min(aoa.length, maxRows+1);
-  for (var i=1;i<shown;i++){
+  var shown = Math.min(aoa.length, maxRows + 1);
+  for (var i = 1; i < shown; i++) {
     var row = aoa[i] || [];
     html += '<tr>';
-    for (var j=0;j<header.length;j++){
-      var v = row[j]==null ? '' : row[j];
-      html += '<td>' + String(v) + '</td>';
+    for (var j = 0; j < header.length; j++) {
+      html += '<td>' + esc(row[j]) + '</td>';
     }
     html += '</tr>';
   }
@@ -771,11 +1023,27 @@ function renderSheet(url, wb, idx, names) {
     (aoa.length > maxRows ? '（数据量大，仅预览前500行，可下载完整文件）' : '');
 }
 
-function closePreview(){ document.getElementById('previewModal').classList.remove('show'); }
-document.getElementById('previewModal').addEventListener('click', function(e){
-  if (e.target.id === 'previewModal') closePreview();
+function closePreview() { document.getElementById('previewModal').classList.remove('show'); }
+
+var pm = document.getElementById('previewModal');
+if (pm) pm.addEventListener('click', function(e) { if (e.target.id === 'previewModal') closePreview(); });
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closePreview(); });
+
+// ========== 初始化 ==========
+document.addEventListener('DOMContentLoaded', function() {
+  var authed = false;
+  try { authed = localStorage.getItem(LOCK_KEY) === '1'; } catch(e) {}
+  if (authed) {
+    document.getElementById('lockScreen').style.display = 'none';
+    document.body.style.overflow = '';
+    render();
+  } else {
+    document.body.style.overflow = 'hidden';
+    var inp = document.getElementById('lockInput');
+    if (inp) inp.focus();
+  }
+  window.addEventListener('hashchange', render);
 });
-document.addEventListener('keydown', function(e){ if(e.key==='Escape') closePreview(); });
 </script>
 </body>
 </html>
